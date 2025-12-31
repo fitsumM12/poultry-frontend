@@ -84,7 +84,7 @@ export default function AccordionTransition({ data }) {
                     id="panel1-header"
                 >
                     <Typography variant="h6" align="left" gutterBottom style={{ color: '#191970' }}>
-                        {`${data.first_name} ${data.last_name}`}
+                        {`${data.farmer_name} ${data.farm_name}`}
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -93,16 +93,16 @@ export default function AccordionTransition({ data }) {
                             <Grid item xs={12} sm={6} md={6} lg={6}>
 
                                 <Typography variant="subtitle1" align="left" gutterBottom>
-                                    {`${data.gender}, ${data.birthdate}`}
+                                    {`${data.breed}, ${data.hatch_date}`}
                                 </Typography>
                                 <Typography variant="subtitle1" align="left" gutterBottom>
                                     {`Email: ${data.email}`}
                                 </Typography>
                                 <Typography variant="subtitle1" align="left" gutterBottom>
-                                    {`Mobile: ${data.mobile}`}
+                                    {`Phone Number: ${data.phone_number}`}
                                 </Typography>
                                 <Typography variant="subtitle1" align="left" gutterBottom>
-                                    {`Job: ${data.job}`}
+                                    {`Flock ID: ${data.Flock_ID}`}
                                 </Typography>
                             </Grid><Grid item xs={12} sm={6} md={6} lg={6}>
 

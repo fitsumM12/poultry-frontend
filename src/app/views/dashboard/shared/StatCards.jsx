@@ -1,7 +1,7 @@
 import { Box, Card, Grid, styled } from "@mui/material";
 import { Group, LocalHospital } from "@mui/icons-material";
 import { Small } from "app/components/Typography";
-import { fetchPatientForDoctor, getPatientsCount } from "app/apis/patients_api";
+import { fetchBroilerForSupervisor, getBroilersCount } from "app/apis/broiler_api";
 import useAuth from "app/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { get_institution_count } from "app/apis/users_api";
@@ -21,13 +21,13 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const ContentBox = styled(Box)(({ theme }) => ({
   display: "flex",
-  flexDirection: "row", 
+  flexDirection: "row",
   alignItems: "center",
   "& small": { color: theme.palette.text.secondary },
   "& .icon": {
     opacity: 0.8,
     fontSize: "44px",
-    marginRight: "16px", 
+    marginRight: "16px",
   },
 }));
 
@@ -50,10 +50,10 @@ export default function StatCards() {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const response = await getPatientsCount();
-        setTotalCount(response.total_patients_count);
-        setNormalCount(response.normal_patients_count);
-        setAbnormalCount(response.abnormal_patients_count);
+        const response = await getBroilersCount();
+        setTotalCount(response.total_broilers_count);
+        setNormalCount(response.normal_broilers_count);
+        setAbnormalCount(response.abnormal_broilers_count);
       } catch (error) {
         // console.log(error);
       }
@@ -75,7 +75,7 @@ export default function StatCards() {
   }, []);
 
   const cardList = [
-    { name: "Hospitals", amount: institution, Icon: LocalHospital, color: "#1E88E5" },
+    { name: "Farms", amount: institution, Icon: LocalHospital, color: "#1E88E5" },
     { name: "Total", amount: totalCount, Icon: Group, color: "#43A047" },
     { name: "Normal", amount: normalCount, Icon: Group, color: "#FB8C00" },
     { name: "Abnormal", amount: abnormalCount, Icon: Group, color: "#E53935" },

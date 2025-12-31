@@ -59,8 +59,8 @@ export default function UserView({ userId, onClose }) {
               <Typography variant="body1">{user.status}</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="subtitle1">Gender:</Typography>
-              <Typography variant="body1">{user.gender}</Typography>
+              <Typography variant="subtitle1">Breed:</Typography>
+              <Typography variant="body1">{user.breed}</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="subtitle1">Birthday:</Typography>
@@ -69,8 +69,8 @@ export default function UserView({ userId, onClose }) {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="subtitle1">Mobile:</Typography>
-              <Typography variant="body1">{user.mobile || 'N/A'}</Typography>
+              <Typography variant="subtitle1">Phone_Number:</Typography>
+              <Typography variant="body1">{user.Phone_Number || 'N/A'}</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="subtitle1">Region:</Typography>

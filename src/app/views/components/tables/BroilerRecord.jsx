@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-// import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBack from "@mui/icons-material/ArrowBack";
-import Fade from '@mui/material/Fade';
+import Fade from "@mui/material/Fade";
 
 import {
   Box,
@@ -20,14 +19,17 @@ import {
   Accordion,
   AccordionSummary,
 } from "@mui/material";
+
 import { Grid } from "@material-ui/core";
 import { Stack, styled } from "@mui/system";
-import PatientsRecordCard from "../PatientsRecordCard";
-import { fetchPatientForDoctor, fetchPatient } from "app/apis/patients_api";
+
+import BroilersRecordCard from "../BroilersRecordCard"; // ✅ correct
+import { fetchBroilerForSupervisor, fetchBroiler } from "app/apis/broiler_api";
 import useAppContext from "app/hooks/useAppContext";
 import useAuth from "app/hooks/useAuth";
-import PatientProfile from "./PatientProfile";
+import BroilerProfile from "./BroilerProfile";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+
 const Container = styled("div")(({ theme }) => ({
   margin: "30px",
   [theme.breakpoints.down("sm")]: { margin: "16px" },
@@ -46,7 +48,7 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const PatientsRecord = () => {
+const BroilerRecord = () => {
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -56,30 +58,31 @@ const PatientsRecord = () => {
   const [page, setPage] = useState(0);
   const { state } = useAppContext();
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [patients, setPatients] = useState([]);
-  const [patient, setPatient] = useState(null);
-  const [viewPatient, setViewPatient] = useState(false);
-  const doctor = useAuth();
+  const [broilers, setBroilers] = useState([]);
+  const [broiler, setBroiler] = useState(null);
+  const [viewBroiler, setViewBroiler] = useState(false);
+  const supervisor = useAuth();
 
+  console.log("supervisor", supervisor);
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchBroilers = async () => {
       try {
-        const patientData = await fetchPatientForDoctor(doctor?.user?.health_institution?.id);
-        setPatients(patientData);
+        const broilerData = await fetchBroilerForSupervisor(supervisor?.user?.farm_institution?.id);
+        setBroilers(broilerData);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
-    fetchPatients();
+    fetchBroilers();
   }, []);
 
-  const handlePatientView = async (userId) => {
+  const handleBroilerView = async (userId) => {
     try {
-      const data = await fetchPatient(userId);
-      setPatient(data);
-      setViewPatient(true);
+      const data = await fetchBroiler(userId);
+      setBroiler(data);
+      setViewBroiler(true);
     } catch (e) {
-      console.error("Error fetching patient", e);
+      console.error("Error fetching broiler", e);
     }
   };
 
@@ -117,19 +120,19 @@ const PatientsRecord = () => {
 
 
   const handleBack = () => {
-    setViewPatient(false);
+    setViewBroiler(false);
   };
 
   const [searchQuery, setSearchQuery] = useState('');
-  const filteredpatient = patients?.filter((patient) =>
-    String(patient?.first_name + patient?.last_name)?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredBroiler = broilers?.filter((broiler) =>
+    String(broiler?.farmer_name + broiler?.farm_name)?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-// console.log("patient filtered", filteredpatient)
+  // console.log("broiler filtered", filteredBroiler);  
   return (
     <Container>
       <Stack spacing={3}>
-        <PatientsRecordCard title="Patients Record">
-          {!viewPatient ? (
+        <BroilersRecordCard title="Broilers Record">
+          {!viewBroiler ? (
             <Box width="100%" overflow="auto">
               <StyledTable>
                 <TableHead>
@@ -138,7 +141,7 @@ const PatientsRecord = () => {
 
                       <ValidatorForm>
                         <TextValidator
-                          label="Patient Name"
+                          label="Broiler Name"
                           onChange={(e) => setSearchQuery(e.target.value)}
                           name="id"
                           value={searchQuery}
@@ -147,30 +150,30 @@ const PatientsRecord = () => {
                         />
                       </ValidatorForm>
                     </TableCell>
-                    <TableCell align="center">Mobile</TableCell>
-                    <TableCell align="center">Gender</TableCell>
+                    <TableCell align="center">Phone_Number</TableCell>
+                    <TableCell align="center">Breed</TableCell>
                     <TableCell align="center">Registered</TableCell>
                     <TableCell align="right">Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredpatient
+                  {filteredBroiler
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((patient, index) => (
+                    .map((broiler, index) => (
                       <TableRow key={index}>
                         <TableCell align="left">
-                          {patient?.first_name + " " + patient?.last_name}
+                          {broiler?.farmer_name + " " + broiler?.farm_name}
                         </TableCell>
-                        <TableCell align="center">{patient?.mobile}</TableCell>
+                        <TableCell align="center">{broiler?.phone_number}</TableCell>
                         <TableCell align="center">
-                          {patient?.gender}
+                          {broiler?.breed}
                         </TableCell><TableCell align="center">
-                          {patient?.record_date}
+                          {broiler?.record_date}
                         </TableCell>
                         <TableCell align="right">
                           <Tooltip title="View">
                             <IconButton
-                              onClick={() => handlePatientView(patient?.id)}
+                              onClick={() => handleBroilerView(broiler?.id)}
                               sx={{ "&:hover": { bgcolor: "grey.200" } }}
                             >
                               <VisibilityIcon sx={{ color: "#fa931d" }} />
@@ -187,7 +190,7 @@ const PatientsRecord = () => {
                 page={page}
                 component="div"
                 rowsPerPage={rowsPerPage}
-                count={filteredpatient.length}
+                count={filteredBroiler.length}
                 onPageChange={handleChangePage}
                 rowsPerPageOptions={[5, 10, 25]}
                 onRowsPerPageChange={handleChangeRowsPerPage}
@@ -237,8 +240,8 @@ const PatientsRecord = () => {
                         <ArrowBack sx={{ color: "#fa931d" }} />
                       </IconButton>
                     </Tooltip>
-                    <Typography variant="h8" sx={{fontStyle:"bold"}}>
-                      {`${patient?.first_name} ${patient?.last_name}`.toUpperCase()}
+                    <Typography variant="h8" sx={{ fontStyle: "bold" }}>
+                      {`${broiler?.farmer_name} ${broiler?.farm_name}`.toUpperCase()}
                     </Typography>
 
                   </Box>
@@ -249,45 +252,45 @@ const PatientsRecord = () => {
                       <Grid item xs={12} sm={6} md={6} lg={6}>
 
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`${patient?.gender}, ${patient?.birthdate}`}
+                          {`${broiler?.breed}, ${broiler?.hatch_date}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Email: ${patient?.email}`}
+                          {`Email: ${broiler?.email}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Mobile: ${patient?.mobile}`}
+                          {`Phone_number: ${broiler?.Phone_Number}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Job: ${patient?.job}`}
+                          {`Flock ID: ${broiler?.Flock_ID}`}
                         </Typography>
                       </Grid><Grid item xs={12} sm={6} md={6} lg={6}>
 
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Region: ${patient?.region}`}
+                          {`Region: ${broiler?.region}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Zone: ${patient?.zone}`}
+                          {`Zone: ${broiler?.zone}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Kebele: ${patient?.kebele}`}
+                          {`Kebele: ${broiler?.kebele}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Registered Date: ${patient?.record_date}`}
+                          {`Registered Date: ${broiler?.record_date}`}
                         </Typography>
                       </Grid>
                     </Grid>
                   </Box>
                 </AccordionDetails>
               </Accordion>
-              {patient && <PatientProfile data={patient} />}
+              {broiler && <BroilerProfile data={broiler} />}
             </>
 
           )}
-        </PatientsRecordCard>
+        </BroilersRecordCard>
       </Stack>
     </Container>
   );
 };
 
-export default PatientsRecord;
+export default BroilerRecord;
 

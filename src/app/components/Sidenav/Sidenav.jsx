@@ -27,15 +27,15 @@ const SideNavOverlay = styled("div")(() => ({
 
 export default function Sidenav({ sx, open, children, toggleSidenav, width = "220px" }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isPhone_Number = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box height="100%" display="flex">
-      <SideNav sx={sx} width={open || !isMobile ? width : "0px"}>
+      <SideNav sx={sx} width={open || !isPhone_Number ? width : "0px"}>
         {children}
       </SideNav>
 
-      {open && isMobile && <SideNavOverlay onClick={toggleSidenav} />}
+      {open && isPhone_Number && <SideNavOverlay onClick={toggleSidenav} />}
     </Box>
   );
 }

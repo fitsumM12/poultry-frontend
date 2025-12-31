@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { submitPhysicianDecision } from 'app/apis/patients_api';
+import { submitPhysicianDecision } from 'app/apis/broiler_api';
 
 const PhysicianDecisionDialog = ({ open, onClose, Result }) => {
   const [approval, setApproval] = useState(true);
@@ -21,12 +21,12 @@ const PhysicianDecisionDialog = ({ open, onClose, Result }) => {
     formData.append('feedback', feedback);
     formData.append('disease', disease);
     if (Result && Result?.id) {
-      formData.append('result', Result?.id); 
+      formData.append('result', Result?.id);
     }
 
     try {
       await submitPhysicianDecision(formData);
-      onClose(); 
+      onClose();
     } catch (error) {
       console.error("Error submitting decision:", error);
     }
@@ -43,7 +43,7 @@ const PhysicianDecisionDialog = ({ open, onClose, Result }) => {
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please provide your decision and feedback regarding the patient's condition.
+          Please provide your decision and feedback regarding the broiler's condition.
         </DialogContentText>
         <FormControlLabel
           control={

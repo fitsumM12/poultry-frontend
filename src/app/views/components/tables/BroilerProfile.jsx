@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { fetchPatientById } from "app/apis/patients_api";
+import { fetchBroilerById } from "app/apis/broiler_api";
 import {
   Box,
   Table,
@@ -21,7 +21,7 @@ import {
 import { styled } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import PatientForm from "../forms/PatientForm";
+import BroilerForm from "../forms/BroilerForm";
 
 import { useNavigate } from 'react-router-dom';
 import useAppContext, { AppContext } from "app/hooks/useAppContext";
@@ -78,45 +78,45 @@ const ZoomImage = ({ imageUrl, onClose }) => {
 };
 
 // MAIN COMPONENT
-const PatientProfile = ({ data }) => {
+const BroilerProfile = ({ data }) => {
   const { state, dispatch } = useAppContext()
   const navigate = useNavigate();
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [patients, setPatients] = useState([]);
+  const [broilers, setBroilers] = useState([]);
   const [zoomedImageUrl, setZoomedImageUrl] = useState(null);
-  const [doctorDetails, setDoctorDetails] = useState({});
+  const [supervisorDetails, setsupervisorDetails] = useState({});
 
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchBroilers = async () => {
       try {
-        const patientData = await fetchPatientById(data?.id);
-        setPatients(patientData);
+        const broilerData = await fetchBroilerById(data.id);
+        setBroilers(broilerData);
 
-        const uniqueDoctorIds = [...new Set(patientData?.map(patient => patient?.doctor_id))];
-        const doctorPromises = uniqueDoctorIds?.map(doctorId => getUser(doctorId));
+        const uniquesupervisorIds = [...new Set(broilerData?.map(broiler => broiler?.supervisor_id))];
+        const supervisorPromises = uniquesupervisorIds?.map(supervisorId => getUser(supervisorId));
 
-        const doctors = await Promise.all(doctorPromises);
-        const doctorDetailsMap = {};
-        uniqueDoctorIds?.forEach((doctorId, index) => {
-          doctorDetailsMap[doctorId] = doctors[index];
+        const supervisors = await Promise.all(supervisorPromises);
+        const supervisorDetailsMap = {};
+        uniquesupervisorIds?.forEach((supervisorId, index) => {
+          supervisorDetailsMap[supervisorId] = supervisors[index];
         });
-        setDoctorDetails(doctorDetailsMap);
+        setsupervisorDetails(supervisorDetailsMap);
       } catch (error) {
-        console.error("Error fetching patients:", error);
+        console.error("Error fetching broilers:", error);
       }
     };
 
-    fetchPatients();
+    fetchBroilers();
   }, [data]);
   useEffect(() => {
-    // console.log("Updated doctor details:", doctorDetails);
-  }, [doctorDetails]);
+    // console.log("Updated supervisor details:", supervisorDetails);
+  }, [supervisorDetails]);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const filteredPatient = patients?.filter((patient) =>
-    String(patient?.record_date).toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredBroiler = broilers?.filter((broiler) =>
+    String(broiler?.record_date).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleChangePage = (_, newPage) => {
@@ -160,41 +160,41 @@ const PatientProfile = ({ data }) => {
                     <AddCircleIcon sx={{ color: "#fa931d" }} />
                   </IconButton>
                 </TableCell>
-                <TableCell align="center" >Doctor</TableCell>
+                <TableCell align="center" >supervisor</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredPatient
+              {filteredBroiler
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((patient, index) => (
+                .map((broiler, index) => (
                   <TableRow key={index}>
                     <TableCell align="left">
-                      {patient?.record_date}
+                      {broiler?.record_date}
                     </TableCell>
-                    <TableCell align="center">{patient?.image_prediction}</TableCell>
+                    <TableCell align="center">{broiler?.image_prediction}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="View Image">
                         <span
-                          style={{ cursor: "pointer", color: patient?.image_url ? "#181b62" : "gray" }}
+                          style={{ cursor: "pointer", color: broiler?.broiler_image ? "#181b62" : "gray" }}
                           onClick={() => {
-                            if (patient.image_url) {
-                              const ImageName = patient?.image_url?.split('\\').pop();
+                            if (broiler.broiler_image) {
+                              const ImageName = broiler?.broiler_image?.split('\\').pop();
                               // console.log(ImageName)
                               setZoomedImageUrl(`${mediaBaseUrl}${ImageName}`);
                             }
                           }}
                         >
-                          <VisibilityIcon sx={{ color: patient?.image_url ? "#181b62" : "gray" }} />
+                          <VisibilityIcon sx={{ color: broiler?.broiler_image ? "#181b62" : "gray" }} />
                         </span>
                       </Tooltip>
                     </TableCell>
                     <TableCell align="center">
-                      {doctorDetails[patient.doctor_id] ? (
+                      {supervisorDetails[broiler.supervisor_id] ? (
                         <>
-                          {doctorDetails[patient?.doctor_id]?.first_name} {doctorDetails[patient?.doctor_id].last_name}
+                          {supervisorDetails[broiler?.supervisor_id]?.farmer_name} {supervisorDetails[broiler?.supervisor_id].farm_name}
                         </>
                       ) : (
-                        <p>Loading doctor details...</p>
+                        <p>Loading supervisor details...</p>
                       )}
                     </TableCell>
                   </TableRow>
@@ -209,7 +209,7 @@ const PatientProfile = ({ data }) => {
             page={page}
             component="div"
             rowsPerPage={rowsPerPage}
-            count={filteredPatient.length}
+            count={filteredBroiler.length}
             onPageChange={handleChangePage}
             rowsPerPageOptions={[5, 10, 25]}
             onRowsPerPageChange={handleChangeRowsPerPage}
@@ -223,4 +223,4 @@ const PatientProfile = ({ data }) => {
   );
 };
 
-export default PatientProfile;
+export default BroilerProfile;

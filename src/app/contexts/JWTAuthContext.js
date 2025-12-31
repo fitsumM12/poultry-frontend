@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }) => {
       // Store the tokens in localStorage
       localStorage.setItem('token', token); 
       localStorage.setItem('refresh_token', refresh_token);
+      localStorage.setItem('user', JSON.stringify(user));
   
       // Dispatch the login action
       dispatch({ type: "LOGIN", payload: { user } });

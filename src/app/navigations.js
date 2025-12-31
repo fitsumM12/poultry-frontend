@@ -2,13 +2,13 @@ export const navigations = [
   { name: "Dashboard", path: "/dashboard/", icon: "dashboard" },
 
   {
-    name: "New Case",
+    name: "New Prediction",
     icon: "person",
     path: "/newcase/"
   }, 
  
   {
-    name: "Patient Records",
+    name: "Broiler Records",
     icon: "group",
     path: "/records/"
   },

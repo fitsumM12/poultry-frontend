@@ -19,7 +19,7 @@ const CardTitle = styled("div")(({ subtitle }) => ({
     boxShadow: "0 0 2px rgba(0, 0, 0, 0.2)",
     color: '#181b62'
 }));
-const PatientsRecordCard = ({ children, title, subtitle }) => {
+const BroilerRecordCard = ({ children, title, subtitle }) => {
     return (
         <CardRoot elevation={6} style={{
             border: '1px solid rgba(95, 96, 164, 0.5)',
@@ -34,4 +34,4 @@ const PatientsRecordCard = ({ children, title, subtitle }) => {
         </CardRoot>
     );
 };
-export default PatientsRecordCard;
+export default BroilerRecordCard;

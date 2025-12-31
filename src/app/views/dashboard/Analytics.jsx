@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Grid, styled } from "@mui/material";
 import StatCards from "./shared/StatCards";
-import { DoctorDoughnut } from "./shared/DoughnutDoctor";
+import { SupervisorDoughnut } from "./shared/DoughnutSupervisor";
 import MonthlyTrend from "./shared/MonthlyTrend";
 
 // STYLED COMPONENTS
@@ -23,7 +23,7 @@ export default function Analytics() {
           </Grid>
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <StatCards />
-            <DoctorDoughnut />
+            <SupervisorDoughnut />
           </Grid>
         </Grid>
       </ContentBox>

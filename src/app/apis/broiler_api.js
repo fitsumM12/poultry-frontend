@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for your API
-const API_PATIENT_URL = `${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/patients/`;
+const API_BROILER_URL = `${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/broilers/`;
 const token = localStorage.getItem('token');
 
 
@@ -11,7 +11,7 @@ export const predictImage = async (image) => {
   const formData = new FormData();
   formData.append('image', image); 
   try {
-    const response = await axios.post(`${API_PATIENT_URL}predict_image/`, formData, {
+    const response = await axios.post(`${API_BROILER_URL}predict_image/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -28,7 +28,7 @@ export const predictImage = async (image) => {
 // TO ADD THE DATAFORM PLUGIN
 export const submitFormData = async (formData) => {
   try {
-    const response = await axios.post(`${API_PATIENT_URL}add/`, formData, {
+    const response = await axios.post(`${API_BROILER_URL}add/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -46,7 +46,7 @@ export const submitFormData = async (formData) => {
 // ADDING AN IMAGE AND PREDICTIONS
 export const submitImageAndPrediction = async (formData) => {
   try {
-    const response = await axios.post(`${API_PATIENT_URL}add_image_predictions/`, formData, {
+    const response = await axios.post(`${API_BROILER_URL}add_image_predictions/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -62,7 +62,7 @@ export const submitImageAndPrediction = async (formData) => {
 
 export const submitPhysicianDecision = async (formData) => {
   try {
-    const response = await axios.post(`${API_PATIENT_URL}addphysiciandecision/`, formData, {
+    const response = await axios.post(`${API_BROILER_URL}addphysiciandecision/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -75,42 +75,42 @@ export const submitPhysicianDecision = async (formData) => {
   }
 };
 
-export const fetchPatientForDoctor = async (in_id) => {
+export const fetchBroilerForSupervisor = async (in_id) => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}doctor/${in_id}/`, {
+    const response = await axios.get(`${API_BROILER_URL}supervisor/${in_id}/`, {
       headers: {
         Authorization: `Bearer ${token}`
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching patients for doctor:', error);
+    console.error('Error fetching broilers for supervisor:', error);
     throw error;
   }
 };
 
 
 
-// FETCH INDIVIDUAL PATIENTS API
-export const fetchPatient = async (p_id) => {
+// FETCH INDIVIDUAL BROILER API
+export const fetchBroiler = async (b_id) => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}${p_id}/`, {
+    const response = await axios.get(`${API_BROILER_URL}${b_id}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching patient:', error);
+    console.error('Error fetching broiler:', error);
     throw error;
   }
 };
 
 
-// UPDATE PATIENT FUNCTION IN API CALLS
-export const updatePatientInAPI = async (id, formData) => {
+// UPDATE BROILER FUNCTION IN API CALLS
+export const updateBroilerInAPI = async (id, formData) => {
   try {
-    const response = await axios.put(`${API_PATIENT_URL}update/${id}/`, formData, {
+    const response = await axios.put(`${API_BROILER_URL}update/${id}/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -122,87 +122,87 @@ export const updatePatientInAPI = async (id, formData) => {
     throw error;
   }
 };
-export const fetchPatientById = async (id) => {
+export const fetchBroilerById = async (id) => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}getprediction/${id}/`, {
+    const response = await axios.get(`${API_BROILER_URL}getprediction/${id}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching patient by ID:', error);
+    console.error('Error fetching broiler by ID:', error);
     throw error;
   }
 };
 
-export const getPatientsCount = async () => {
+export const getBroilersCount = async () => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}count_patients_json/`, {
+    const response = await axios.get(`${API_BROILER_URL}count_broilers_json/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching patient by ID:', error);
+    console.error('Error fetching broiler by ID:', error);
     throw error;
   }
 };
 
-export const genderCount = async () => {
+export const breedCount = async () => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}gender_count/`, {
+    const response = await axios.get(`${API_BROILER_URL}breed_count/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching patient by ID:', error);
+    console.error('Error fetching broiler by ID:', error);
     throw error;
   }
 };
 
 export const newandreturning = async () => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}new_vs_returning_patients/`, {
+    const response = await axios.get(`${API_BROILER_URL}new_vs_returning_broilers/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching new and returning patients:', error);
+    console.error('Error fetching new and returning broilers:', error);
     throw error;
   }
 }
 
 
-export const monthlyPatientCount = async (year) => {
+export const monthlyBroilerCount = async (year) => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}monthly_patient_count/${year}/`, {
+    const response = await axios.get(`${API_BROILER_URL}monthly_broiler_count/${year}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching monthly patient trend', error);
+    console.error('Error fetching monthly broiler trend', error);
     throw error;
   }
 };
 
 export const monthlyPredictionCount = async (year) => {
   try {
-    const response = await axios.get(`${API_PATIENT_URL}predictions_by_month/${year}/`, {
+    const response = await axios.get(`${API_BROILER_URL}predictions_by_month/${year}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching monthly patient trend', error);
+    console.error('Error fetching monthly broiler trend', error);
     throw error;
   }
 };

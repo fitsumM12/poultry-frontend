@@ -15,7 +15,7 @@ const Container = styled("div")(({ theme }) => ({
 export default function AppTable() {
   return (
     <Container>
-      <SimpleCard title="Patient Records">
+      <SimpleCard title="Broiler Records">
         <PaginationTable />
       </SimpleCard>
     </Container>

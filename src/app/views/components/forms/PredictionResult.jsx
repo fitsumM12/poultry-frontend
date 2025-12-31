@@ -5,9 +5,9 @@ import ReportIcon from '@mui/icons-material/Report';
 // PredictionResult Component
 const PredictionResult = ({ data }) => {
     const values = {
-        0: 'HSIL',
-        1: 'LSIL',
-        2: 'Normal',
+        0: 'Newcastle',
+        1: 'Normal',
+        2: 'Other abnormal'
     };
     const maxIndex = data.indexOf(Math.max(...data));
     const result = values[maxIndex];

@@ -27,8 +27,8 @@ const validationSchema = Yup.object().shape({
       otherwise: Yup.string()
     }),
   role: Yup.string().required('Role is required'),
-  gender: Yup.string().required('Gender is required'),
-  mobile: Yup.string().matches(/^[0-9]+$/, 'Invalid phone number')
+  breed: Yup.string().required('Breed is required'),
+  phone_number: Yup.string().matches(/^[0-9]+$/, 'Invalid phone number')
 });
 
 export default function UserForm({ userId, onSubmit, onCancel }) {
@@ -37,13 +37,13 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
     email: '',
     password: '',
     role: '',
-    gender: '',
-    birthday: null,
-    mobile: '',
+    breed: '',
+    hatch_date: null,
+    phone_number: '',
     region: '',
     zone: '',
     kebele: '',
-    hospital: ''
+    farm_institution: ''
   });
 
   useEffect(() => {
@@ -56,13 +56,13 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
             email: user.email || '',
             password: '',
             role: user.role || '',
-            gender: user.gender || '',
-            birthday: user.birthday || null,
-            mobile: user.mobile || '',
+            breed: user.breed || '',
+            hatch_date: user.hatch_date || null,
+            phone_number: user.phone_number || '',
             region: user.region || '',
             zone: user.zone || '',
             kebele: user.kebele || '',
-            hospital: user.hospital || ''
+            farm_institution: user.farm_institution || ''
           });
         } catch (error) {
           console.error('Error fetching user:', error);
@@ -138,20 +138,20 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={formik.touched.gender && Boolean(formik.errors.gender)}>
-            <InputLabel>Gender</InputLabel>
+          <FormControl fullWidth error={formik.touched.breed && Boolean(formik.errors.breed)}>
+            <InputLabel>breed</InputLabel>
             <Select
-              name="gender"
-              value={formik.values.gender}
+              name="breed"
+              value={formik.values.breed}
               onChange={formik.handleChange}
-              label="Gender"
+              label="breed"
             >
               <MenuItem value="Male">Male</MenuItem>
               <MenuItem value="Female">Female</MenuItem>
               <MenuItem value="Other">Other</MenuItem>
             </Select>
-            {formik.touched.gender && formik.errors.gender && (
-              <FormHelperText>{formik.errors.gender}</FormHelperText>
+            {formik.touched.breed && formik.errors.breed && (
+              <FormHelperText>{formik.errors.breed}</FormHelperText>
             )}
           </FormControl>
         </Grid>
@@ -173,12 +173,12 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
-            label="Mobile"
-            name="mobile"
-            value={formik.values.mobile}
+            label="Phone Number"
+            name="phone_number"
+            value={formik.values.phone_number}
             onChange={formik.handleChange}
-            error={formik.touched.mobile && Boolean(formik.errors.mobile)}
-            helperText={formik.touched.mobile && formik.errors.mobile}
+            error={formik.touched.phone_number && Boolean(formik.errors.phone_number)}
+            helperText={formik.touched.phone_number && formik.errors.phone_number}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -211,9 +211,9 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
-            label="Hospital"
-            name="hospital"
-            value={formik.values.hospital}
+            label="farm_institution"
+            name="farm_institution"
+            value={formik.values.farm_institution}
             onChange={formik.handleChange}
           />
         </Grid>

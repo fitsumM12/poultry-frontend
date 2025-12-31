@@ -43,11 +43,11 @@ const SimpleForm = () => {
   const handleDateChange = (date) => setState({ ...state, date });
 
   const {
-    firstName,
-    lastName,
-    mobile,
-    gender,
-    job,
+    farmer_name,
+    farm_Name,
+    phone_number,
+    breed,
+    Flock_ID,
     age,
     email, zone, region, kebele
   } = state;
@@ -60,19 +60,19 @@ const SimpleForm = () => {
 
             <TextField
               type="text"
-              name="firstName"
-              label="First Name"
+              name="Farmer_Name"
+              label="Farmer Name"
               onChange={handleChange}
-              value={firstName || ""}
+              value={Farmer_Name || ""}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
             <TextField
               type="text"
-              name="lastName"
-              label="Last Name"
+              name="farm_Name"
+              label="Farm Name"
               onChange={handleChange}
-              value={lastName || ""}
+              value={farm_Name || ""}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
@@ -88,10 +88,10 @@ const SimpleForm = () => {
 
             <RadioGroup
               row
-              name="gender"
-              label='Gender'
+              name="breed"
+              label='breed'
               sx={{ mb: 2 }}
-              value={gender || ""}
+              value={breed || ""}
               onChange={handleChange}>
               <FormControlLabel
                 value="Male"
@@ -116,10 +116,10 @@ const SimpleForm = () => {
             </RadioGroup>
             <TextField
               type="text"
-              name="Job"
-              label="Job"
+              name="Flock_ID"
+              label="Flock_ID"
               onChange={handleChange}
-              value={job || ""}
+              value={Flock_ID || ""}
             />
 
           </Grid>
@@ -131,19 +131,29 @@ const SimpleForm = () => {
               label="Email"
               value={email || ""}
               onChange={handleChange}
-              // validators={["required", "isEmail"]}
+              validators={["required", "isEmail"]}
               errorMessages={["this field is required", "email is not valid"]}
             />
 
             <TextField
               type="text"
-              name="mobile"
-              value={mobile || ""}
-              label="Mobile Nubmer"
+              name="phone_number"
+              value={phone_number || ""}
+              label="Phone Number"
               onChange={handleChange}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
+            <TextField
+              type="text"
+              name="hatch_date"
+              value={hatch_date || ""}
+              label="Hatch Date"
+              onChange={handleChange}
+              validators={["required"]}
+              errorMessages={["this field is required"]}
+            />
+
             <TextField
               type="text"
               name="region"

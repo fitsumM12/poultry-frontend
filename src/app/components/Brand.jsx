@@ -2,7 +2,7 @@ import { Box, styled } from "@mui/material";
 import { Span } from "./Typography";
 import { Logo } from "app/components";
 import useSettings from "app/hooks/useSettings";
-import "@fontsource/pacifico"; 
+import "@fontsource/pacifico";
 
 // STYLED COMPONENTS
 const BrandRoot = styled(Box)(() => ({
@@ -45,7 +45,7 @@ export default function Brand({ children }) {
         <Box display="flex" alignItems="center">
           <Logo />
           <StyledSpan mode={mode} className="sidenavHoverShow">
-          Cervical Cancer
+            Broiler Disease
           </StyledSpan>
         </Box>
       </BrandRoot>

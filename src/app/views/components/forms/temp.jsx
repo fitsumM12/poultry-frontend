@@ -33,14 +33,13 @@ function ImageUploadForm() {
   const [imagePreview, setImagePreview] = useState(null);
   const [forward, setForward] = useState(true)
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    farmer_name: '',
+    farm_name: '',
     age: 0,
-    gender: 'unknown',
-    job: 'unknown',
-    gender: 'unknown',
+    breed: 'unknown',
+    Flock_ID: 'unknown',
     email: 'unknown@gmail.com',
-    mobile: '',
+    phone_number: '',
     region: 'unknown',
     zone: 'unknown',
     kebele: 'unknown',
@@ -61,8 +60,8 @@ function ImageUploadForm() {
   const handleImageChange = (e) => {
     const { name, files } = e.target;
     const file = e.target.files[0];
-    const newValue = name === 'image' ? files[0] : formData[name]; 
-  
+    const newValue = name === 'image' ? files[0] : formData[name];
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -75,7 +74,7 @@ function ImageUploadForm() {
       [name]: newValue
     }));
   };
-  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -83,12 +82,14 @@ function ImageUploadForm() {
     data.append('firstName', formData.firstName);
     data.append('lastName', formData.lastName);
     data.append('age', formData.age);
-    data.append('gender', formData.gender);
+    data.append('breed', formData.breed);
     data.append('email', formData.email);
-    data.append('mobile', formData.mobile);
+    data.append('phone_number', formData.phone_number);
     data.append('region', formData.region);
     data.append('zone', formData.zone);
     data.append('kebele', formData.kebele);
+    data.append('hatch_date', formData.hatch_date);
+    data.append('farm_institution', formData.farm_institution || '');
     data.append('image', formData.image);
 
     axios.post(`${process.env.SERVER_IP_ADDRESS}/api/predicts/`, data)
@@ -120,7 +121,7 @@ function ImageUploadForm() {
                   <TextField
                     type="text"
                     name="firstName"
-                    label="First Name"
+                    label="Farmer Name"
                     onChange={handleChange}
                     value={formData.firstName || ""}
                     validators={["required"]}
@@ -129,7 +130,7 @@ function ImageUploadForm() {
                   <TextField
                     type="text"
                     name="lastName"
-                    label="Last Name"
+                    label="Farm Name"
                     onChange={handleChange}
                     value={formData.lastName || ""}
                     validators={["required"]}
@@ -147,10 +148,10 @@ function ImageUploadForm() {
 
                   <RadioGroup
                     row
-                    name="gender"
-                    label='Gender'
+                    name="breed"
+                    label='breed'
                     sx={{ mb: 2 }}
-                    value={formData.gender || ""}
+                    value={formData.breed || ""}
                     onChange={handleChange}>
                     <FormControlLabel
                       value="Male"
@@ -175,10 +176,10 @@ function ImageUploadForm() {
                   </RadioGroup>
                   <TextField
                     type="text"
-                    name="Job"
-                    label="Job"
+                    name="Flock_ID"
+                    label="Flock_ID"
                     onChange={handleChange}
-                    value={formData.job || ""}
+                    value={formData.Flock_ID || ""}
                   />
 
                 </Grid>
@@ -196,9 +197,9 @@ function ImageUploadForm() {
 
                   <TextField
                     type="text"
-                    name="mobile"
-                    value={formData.mobile || ""}
-                    label="Mobile Nubmer"
+                    name="phone_number"
+                    value={formData.phone_number || ""}
+                    label="Phone Number"
                     onChange={handleChange}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
@@ -235,7 +236,7 @@ function ImageUploadForm() {
                 variant="contained"
                 type="submit"
                 onClick={handleNext}
-                // onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               >
 
                 <Span sx={{ pl: 1, textTransform: "capitalize" }}>Next</Span>
@@ -248,7 +249,7 @@ function ImageUploadForm() {
             <form onSubmit={handleSubmit}>
               <input type="file" name='image' onChange={handleImageChange} />
               <button type="submit" color="secondary" variant="contained" >
-              <Span sx={{ pl: 1, textTransform: "capitalize" }}>Predict</Span></button>
+                <Span sx={{ pl: 1, textTransform: "capitalize" }}>Predict</Span></button>
             </form>
             <Button color="primary" variant="contained" type="submit" onClick={handleNext} style={{ alignItems: 'self-end' }}>
               <ArrowBackIosIcon />

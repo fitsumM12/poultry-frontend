@@ -1,7 +1,7 @@
 {
-  "name": "CervicalCancer-react",
+  "name": "broiler-disease-detection",
   "version": "4.0.0",
-  "homepage":"/cc-app",
+  "homepage":"/Broiler-app",
   "private": true,
   "scripts": {
     "start": "react-scripts start",

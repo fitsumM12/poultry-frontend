@@ -15,19 +15,23 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { monthlyPatientCount } from "app/apis/patients_api";
+import { monthlyBroilerCount } from "app/apis/broiler_api";
 
 const MonthlyTrend = () => {
   const [selectedYear, setSelectedYear] = useState(dayjs().year());
-  const [monthlyPatient, setMonthlyPatient] = useState([]);
+  const [monthlyBroiler, setMonthlyBroiler] = useState([]);
 
   useEffect(() => {
     const fetchMonthlyData = async (year) => {
       try {
-        const patientData = await monthlyPatientCount(year);
-        setMonthlyPatient(patientData);
+        const broilerData = await monthlyBroilerCount(year);
+
+        // 🔎 Debug log — this will show the API response in the browser console
+        console.log("Monthly API data =", broilerData);
+
+        setMonthlyBroiler(broilerData);
       } catch (error) {
-        console.error("Error fetching patient trends", error);
+        console.error("Error fetching broiler trends", error);
       }
     };
 
@@ -35,15 +39,15 @@ const MonthlyTrend = () => {
   }, [selectedYear]);
 
   const chartData = useMemo(() => {
-    return monthlyPatient.map((patient) => {
+    return monthlyBroiler.map((broiler) => {
       return {
-        month: patient.month,
-        // male_count: patient.male_count,
-        // female_count: patient.female_count,
-        total_count: patient.total_count,
+        month: broiler.month,
+        // male_count: broiler.male_count,
+        // female_count: broiler.female_count,
+        total_count: broiler.total_count,
       };
     });
-  }, [monthlyPatient]);
+  }, [monthlyBroiler]);
 
   const handleYearChange = (newYear) => {
     setSelectedYear(newYear.year());
@@ -80,7 +84,7 @@ const MonthlyTrend = () => {
                   variant="h6"
                   style={{ textAlign: "left", fontWeight: "bold", color: "#181b62" }}
                 >
-                  Monthly Statistics
+                  Monthly Disease Predictions
                 </Typography>
               </Box>
             </Grid>
@@ -119,7 +123,7 @@ const MonthlyTrend = () => {
                   strokeWidth={2}
                   name="Total Count"
                 />
-                
+
               </LineChart>
             </ResponsiveContainer>
           ) : (

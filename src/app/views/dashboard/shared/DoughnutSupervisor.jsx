@@ -1,36 +1,36 @@
 import { Card, Grid, useTheme } from "@mui/material";
 import DoughnutChart from "./Doughnut";
 import { useEffect } from "react";
-import { genderCount, getPatientsCount, newandreturning } from "app/apis/patients_api";
+import { genderCount, getBroilersCount, newandreturning } from "app/apis/broiler_api";
 import { useState } from "react";
 
-export const DoctorDoughnut = () => {
-  const [newPatient, setNewPatient] = useState(0);
-  const [returningPatient, setReturningPatient] = useState(0);
+export const SupervisorDoughnut = () => {
+  const [newBroiler, setNewBroiler] = useState(0);
+  const [returningBroiler, setReturningBroiler] = useState(0);
   const [normalCount, setNormalCount] = useState(0);
   const [abnormalCount, setAbnormalCount] = useState(0);
 
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchBroilers = async () => {
       try {
-        const patientData = await newandreturning();
-        setNewPatient(patientData.new_patients)
-        setReturningPatient(patientData.returning_patients)
-        // console.log(patientData)
+        const broilerData = await newandreturning();
+        setNewBroiler(broilerData.new_broilers)
+        setReturningBroiler(broilerData.returning_broilers)
+        // console.log(broilerData)
       } catch (error) {
-        console.error("Error fetching patients:", error);
+        console.error("Error fetching broilers:", error);
       }
     };
-    fetchPatients()
+    fetchBroilers()
   }, [])
 
 
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const response = await getPatientsCount();
-        setNormalCount(response.normal_patients_count)
-        setAbnormalCount(response.abnormal_patients_count)
+        const response = await getBroilersCount();
+        setNormalCount(response.normal_broilers_count)
+        setAbnormalCount(response.abnormal_broilers_count)
       }
       catch (error) {
         // console.log(error)
@@ -45,9 +45,9 @@ export const DoctorDoughnut = () => {
     Abnormal: abnormalCount,
   };
 
-  const patientDistribution = {
-    New: newPatient,
-    Returning: returningPatient
+  const broilerDistribution = {
+    New: newBroiler,
+    Returning: returningBroiler
   }
 
 
@@ -60,8 +60,8 @@ export const DoctorDoughnut = () => {
             border: '1px solid rgba(95, 96, 164, 0.5)',
           }}>
             <DoughnutChart
-              title="Patients Summary"
-              record={patientDistribution}
+              title="Broilers  Summary"
+              record={broilerDistribution}
               height="230px"
               color={[
                 '#fa931d',
@@ -70,7 +70,7 @@ export const DoctorDoughnut = () => {
             />
           </Card>
         </Grid>
-    
+
         <Grid item lg={6} md={6} sm={6} xs={12}>
           <Card sx={{
             px: 2, py: 2, mb: 2, textAlign: "center",

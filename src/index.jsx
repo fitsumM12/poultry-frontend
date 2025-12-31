@@ -10,7 +10,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-  <BrowserRouter basename="/cc-app">
+  <BrowserRouter basename="/Broiler-app">
     <App />
   </BrowserRouter>
 );

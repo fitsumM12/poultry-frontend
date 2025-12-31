@@ -1,6 +1,6 @@
 {
-  "short_name": "CervicalCancer",
-  "name": "Cervical Cancer Screening",
+  "short_name": "Broiler Disease Classification",
+  "name": "Broiler Disease Classification Screening",
   "icons": [
     {
       "src": "favicon.ico",

@@ -9,7 +9,7 @@ import { AddCircleOutline } from "@mui/icons-material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { Span } from "app/components/Typography";
 import { useDropzone } from "react-dropzone";
-import { predictImage, submitFormData, submitImageAndPrediction, updatePatientInAPI } from "app/apis/patients_api";
+import { predictImage, submitFormData, submitImageAndPrediction, updateBroilerInAPI } from "app/apis/broiler_api";
 import { SimpleCard } from "app/components";
 import useAuth from "app/hooks/useAuth";
 import { PredictionResult, AbnormalityDetection } from "./PredictionResult";
@@ -43,9 +43,9 @@ const dropzoneStyle = {
 }
 
 const diagnosisLabels = {
-  0: "HSIL",
-  1: "LSIL",
-  2: "Normal"
+  0: "Newcastle",
+  1: "Normal",
+  2: "Other abnormal"
 };
 
 const getLargestIndex = (predictionArray) => {
@@ -57,37 +57,40 @@ const isPredictionValid = (predictionArray) => {
 };
 
 
-const PatientForm = () => {
+const BroilerForm = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [showImageSection, setShowImageSection] = useState(false);
-  const [genderError, setGenderError] = useState(false);
+  const [breedError, setbreedError] = useState(false);
   const [res, setRes] = useState({});
   const { user } = useAuth();
+  const supervisor_id = JSON.parse(localStorage.getItem("id"));
+  const farm_institution = JSON.parse(localStorage.getItem("health_institution"))?.id;
   const { state, dispatch } = useAppContext();
   // console.log("state", state)
   const [predictions, setPredictions] = useState({
-    patient_id: null,
-    image_url: null,
+    broiler_id: null,
+    broiler_image: null,
     image_prediction: null,
-    patient_id: state.new_screening ? state.currentPatientId : null,
-    doctor_id: user?.id,
+    broiler_id: state.new_screening ? state.currentBroilerId : null,
+    supervisor_id: user?.id,
   });
 
   const initialFormData = {
-    first_name: "",
-    last_name: "",
-    birthdate: "1990-12-12",
-    gender: "female",
-    job: "job",
+    farmer_name: "",
+    farm_name: "",
+    hatch_date: "2025-01-01",
+    breed: "Red Ranger",
+    Flock_ID: "Flock ID",
     email: "custom@gmail.com",
-    mobile: "0974000000",
+    phone_number: "0974000000",
     region: "region",
     zone: "zone",
     kebele: "kebele",
-    doctor_id: user?.id,
-    health_institution: user?.health_institution?.id,
+    supervisor_id: supervisor_id || "",
+    farm_institution: farm_institution || "",
+
   };
 
   const handleOpenDialog = () => setDialogOpen(true);
@@ -123,7 +126,7 @@ const PatientForm = () => {
         const updatedPredictions = {
           ...predictions,
           image_prediction: prediction?.predictions,
-          image_url: prediction?.image_url,
+          broiler_image: prediction?.broiler_image,
         };
         setPredictions(updatedPredictions);
       }
@@ -131,7 +134,7 @@ const PatientForm = () => {
         const finalPredictions = {
           ...predictions,
           image_prediction: diagnosisLabels[getLargestIndex(prediction?.predictions[0])],
-          image_url: prediction.image_url,
+          broiler_image: prediction?.broiler_image,
         };
         const response = await submitImageAndPrediction(finalPredictions);
         setRes(response);
@@ -140,14 +143,14 @@ const PatientForm = () => {
         const updatedPredictions = {
           ...predictions,
           image_prediction: null,
-          image_url: prediction ? prediction.image_url : null,
+          broiler_image: prediction ? prediction.broiler_image : null,
         };
         setPredictions(updatedPredictions);
         const response = await submitImageAndPrediction(updatedPredictions);
         setRes(response);
       }
     } catch (error) {
-      console.error("Error during diagnosis or updating patient data:", error);
+      console.error("Error during diagnosis or updating broiler data:", error);
     } finally {
       setIsLoading(false);
     }
@@ -157,50 +160,60 @@ const PatientForm = () => {
   //   consol
   // },[])
   const handleShowImageSection = async () => {
-    if (!formData.gender) {
-      setGenderError(true);
+    console.log("Submit clicked");
+    if (!formData.breed) {
+      setbreedError(true);
       return;
     }
 
     try {
       const response = await submitFormData(formData);
-      setPredictions((prev) => ({ ...prev, patient_id: response?.id }))
+      setPredictions((prev) => ({ ...prev, broiler_id: response?.id }))
       setShowImageSection(true);
     } catch (error) {
-      console.error("Error saving patient data:", error);
+      console.error("Error saving broiler data:", error);
     }
   };
   return (
     <Container>
       <Stack spacing={3}>
-        <SimpleCard title="Patient Details">
+        <SimpleCard title="Broiler Details">
           {!showImageSection ? (
             <ValidatorForm onSubmit={handleShowImageSection}>
               <Grid container spacing={6}>
                 <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
                   <TextField
                     type="text"
-                    name="first_name"
-                    label="First Name"
+                    name="farmer_name"
+                    label="Farmer Name"
                     onChange={handleChange}
-                    value={formData.first_name}
+                    value={formData.farmer_name}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
                   />
                   <TextField
                     type="text"
-                    name="last_name"
-                    label="Last Name"
+                    name="farm_name"
+                    label="Farm Name"
                     onChange={handleChange}
-                    value={formData.last_name}
+                    value={formData.farm_name}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
                   />
                   <TextField
                     type="text"
-                    name="mobile"
-                    label="Mobile Number"
-                    value={formData.mobile}
+                    name="phone_number"
+                    label="Phone Number"
+                    value={formData.phone_number}
+                    onChange={handleChange}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                  <TextField
+                    type="text"
+                    name="breed"
+                    label="breed"
+                    value={formData.breed}
                     onChange={handleChange}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
@@ -217,22 +230,23 @@ const PatientForm = () => {
 
                   <TextField
                     type="text"
-                    name="job"
-                    label="Job"
+                    name="Flock_ID"
+                    label="Flock ID"
                     onChange={handleChange}
-                    value={formData.job}
+                    value={formData.Flock_ID}
                     validators={["required"]}
+                    errorMessages={["this field is required"]}
                   />
                 </Grid>
                 <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
 
                   <TextField
                     type="date"
-                    name="birthdate"
-                    label="Date of Birth"
+                    name="hatch_date"
+                    label="Hatch Date"
                     onChange={handleChange}
-                    value={formData.birthdate}
-                    defaultValue="1990-12-12"
+                    value={formData.hatch_date}
+                    defaultValue="2025-01-01"
                     validators={["required"]}
                     errorMessages={["this field is required"]}
                   />
@@ -244,6 +258,7 @@ const PatientForm = () => {
                     onChange={handleChange}
                     value={formData.region}
                     validators={["required"]}
+                    errorMessages={["this field is required"]}
                   />
                   <TextField
                     type="text"
@@ -252,6 +267,7 @@ const PatientForm = () => {
                     onChange={handleChange}
                     value={formData.zone}
                     validators={["required"]}
+                    errorMessages={["this field is required"]}
                   />
                   <TextField
                     type="text"
@@ -260,7 +276,26 @@ const PatientForm = () => {
                     onChange={handleChange}
                     value={formData.kebele}
                     validators={["required"]}
+                    errorMessages={["this field is required"]}
                   />
+                  {/* <TextField
+                    type="text"
+                    name="farm_institution"
+                    label="Farm Institution"
+                    onChange={handleChange}
+                    value={formData.farm_institution}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                  <TextField
+                    type="text"
+                    name="supervisor_id"
+                    label="Supervisor ID"
+                    onChange={handleChange}
+                    value={formData.supervisor_id}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  /> */}
                 </Grid>
               </Grid>
 
@@ -318,7 +353,7 @@ const PatientForm = () => {
                       <>
 
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                          <h4 style={{ maxWidth: "80%", maxHeight: "80%", textAlign: 'center' }}>Cervical Pap-Smear</h4>
+                          <h4 style={{ maxWidth: "80%", maxHeight: "80%", textAlign: 'center' }}>Broiler Fecal Image</h4>
                         </div>
                         <Zoom>
                           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -384,5 +419,5 @@ const PatientForm = () => {
   );
 }
 
-export default PatientForm;
+export default BroilerForm;
 

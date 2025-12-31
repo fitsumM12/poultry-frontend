@@ -16,8 +16,8 @@ const ForgotPassword = Loadable(lazy(() => import("app/views/sessions/ForgotPass
 
 // DASHBOARD PAGE
 const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
-const PatientsRecord = Loadable(lazy(() => import("app/views/components/tables/PatientsRecord")));
-const PatientForm = Loadable(lazy(() => import("app/views/components/forms/PatientForm")));
+const BroilerRecord = Loadable(lazy(() => import("app/views/components/tables/BroilerRecord")));
+const BroilerForm = Loadable(lazy(() => import("app/views/components/forms/BroilerForm")));
 const ProfilePage = Loadable(lazy(() => import("app/views/components/profile_page")));
 const routes = [
   {
@@ -29,8 +29,8 @@ const routes = [
     children: [
       ...materialRoutes,
       { path: "/dashboard/", element: <Analytics /> },
-      { path: "/newcase/", element: <PatientForm /> },
-      { path: "/records/", element: <PatientsRecord /> },
+      { path: "/newcase/", element: <BroilerForm /> },
+      { path: "/records/", element: <BroilerRecord /> },
       { path: "/user_profile/", element: <ProfilePage /> },
       { path: "/user_management/", element: <ManageUser /> },
       { path: "*", element: <NotFound /> }

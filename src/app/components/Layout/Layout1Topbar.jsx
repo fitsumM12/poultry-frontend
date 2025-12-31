@@ -28,7 +28,7 @@ const TopbarContainer = styled(Box)(({ theme }) => ({
   height: "100%",
   display: "flex",
   alignItems: "center",
-  borderBottom:'1.5px solid #d19a0',
+  borderBottom: '1.5px solid #d19a0',
   justifyContent: "space-between",
   background: theme.palette.primary.main,
   [theme.breakpoints.down("sm")]: { paddingLeft: 16, paddingRight: 16 },
@@ -67,11 +67,11 @@ const getInitials = (firstName, lastName) => {
 
 // MAIN
 const renderAvatar = (user) => {
-  if (!user || !user.first_name || !user.last_name) {
+  if (!user || !user.farmer_name || !user.farm_name) {
     return <Avatar sx={{ cursor: 'pointer', backgroundColor: '#23297a' }}>?</Avatar>; // Fallback Avatar
   }
 
-  const initials = getInitials(user.first_name, user.last_name);
+  const initials = getInitials(user.farmer_name, user.farm_name);
   return <Avatar sx={{ cursor: 'pointer', backgroundColor: '#23297a' }}>{initials}</Avatar>;
 };
 
@@ -96,7 +96,7 @@ const Layout1Topbar = () => {
     let { layout1Settings } = settings;
     let mode;
     if (isMdScreen) {
-      mode = layout1Settings.leftSidebar.mode === "close" ? "mobile" : "close";
+      mode = layout1Settings.leftSidebar.mode === "close" ? "phone_number" : "close";
     } else {
       mode = layout1Settings.leftSidebar.mode === "full" ? "close" : "full";
     }
@@ -114,14 +114,14 @@ const Layout1Topbar = () => {
 
         <Box display="flex" alignItems="center">
           <Span>
-            <h5>{user.first_name}</h5>
+            <h5>{user.farmer_name}</h5>
           </Span>
           <MainMenu
             menuButton={
               <UserMenu>
                 <Hidden xsDown>
                 </Hidden>
-                <AccountCircleIcon style={{ color: '#00004D', height:'30px', width:'30px', margin:2}} />
+                <AccountCircleIcon style={{ color: '#00004D', height: '30px', width: '30px', margin: 2 }} />
 
               </UserMenu>
             }

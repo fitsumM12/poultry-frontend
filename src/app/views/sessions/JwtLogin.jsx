@@ -83,10 +83,9 @@ export default function JwtLogin() {
         <Grid container>
           <Grid item sm={6} xs={12}>
             <div className="img-wrapper">
-              <img src={process.env.PUBLIC_URL+"/assets/images/screening.gif"} style={{ borderRadius: 20 }} width="100%" alt="" />
+              <img src={process.env.PUBLIC_URL + "/assets/images/broiler-chicken.jpg"} style={{ borderRadius: 20 }} width="100%" alt="" />
             </div>
           </Grid>
-
           <Grid item sm={6} xs={12}>
             <Box display="flex" justifyContent="center" mt={5} ml={-3} >
               <Brand />
@@ -127,7 +126,7 @@ export default function JwtLogin() {
                       error={Boolean(errors.password && touched.password)}
                       sx={{ mb: 1.5 }}
                     />
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       <LoadingButton
                         type="submit"
                         style={{ backgroundColor: '#181b62' }}

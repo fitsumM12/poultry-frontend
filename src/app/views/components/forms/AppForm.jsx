@@ -3,7 +3,7 @@
 // import { Breadcrumb, SimpleCard } from "app/components";
 // import SimpleForm from "./SimpleForm";
 // // import ImageUploadForm from "./imageUpload";
-// import ImageUploadForm from "./PatientForm";
+// import ImageUploadForm from "./BroilerForm";
 
 // // STYLED COMPONENTS
 // const Container = styled("div")(({ theme }) => ({
@@ -19,8 +19,8 @@
 //   return (
 //     <Container>
 //       <Stack spacing={3}>
-//         <SimpleCard title="New Patient Details">
-//           <PatientForm />
+//         <SimpleCard title="New Broiler Details">
+//           <BroilerForm />
 //         </SimpleCard>
 //       </Stack>
 //     </Container>

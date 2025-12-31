@@ -82,7 +82,7 @@ export default function JwtRegister() {
                 width="100%"
                 style={{ borderRadius: 20 }}
                 alt="Register"
-                src={process.env.PUBLIC_URL+"/assets/images/screening.png"}
+                src={process.env.PUBLIC_URL + "/assets/images/broiler-chicken.jpg"}
               />
             </ContentBox>
           </Grid>

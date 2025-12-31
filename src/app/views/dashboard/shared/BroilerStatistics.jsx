@@ -34,7 +34,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
     color: theme.palette.primary.main,
   },
 }));
-const PatientStatistics = () => {
+const BroilerStatistics = () => {
   const chartOptions = {
     tooltip: {
       trigger: 'axis',
@@ -64,37 +64,37 @@ const PatientStatistics = () => {
   };
 
   return (
-    
+
     <StyledCard>
-    <ContentBox>
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h4" gutterBottom>
-        Patients By Gender
-      </Typography>
+      <ContentBox>
+        <Box sx={{ padding: 2 }}>
+          <Typography variant="h4" gutterBottom>
+            Broilers By breed
+          </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
-        <FormControl variant="outlined" size="small">
-          <InputLabel>Type</InputLabel>
-          <Select label="Type">
-            <MenuItem value="Sinus Bradycardia">Sinus Bradycardia</MenuItem>
-            {/* Add other options as needed */}
-          </Select>
-        </FormControl>
-        <FormControl variant="outlined" size="small">
-          <InputLabel>Year</InputLabel>
-          <Select label="Year">
-            <MenuItem value={2024}>2024</MenuItem>
-            {/* Add other years as needed */}
-          </Select>
-        </FormControl>
-      </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
+            <FormControl variant="outlined" size="small">
+              <InputLabel>Type</InputLabel>
+              <Select label="Type">
+                <MenuItem value="Sinus Bradycardia">Sinus Bradycardia</MenuItem>
+                {/* Add other options as needed */}
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined" size="small">
+              <InputLabel>Year</InputLabel>
+              <Select label="Year">
+                <MenuItem value={2024}>2024</MenuItem>
+                {/* Add other years as needed */}
+              </Select>
+            </FormControl>
+          </Box>
 
-      <ReactEcharts option={chartOptions} style={{ height: '400px', width: '100%' }} />
+          <ReactEcharts option={chartOptions} style={{ height: '400px', width: '100%' }} />
 
-    </Box>
-    </ContentBox>
+        </Box>
+      </ContentBox>
     </StyledCard>
   );
 };
 
-export default PatientStatistics;
+export default BroilerStatistics;

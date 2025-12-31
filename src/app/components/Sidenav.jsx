@@ -13,7 +13,7 @@ const StyledScrollBar = styled(Scrollbar)(() => ({
   position: "relative"
 }));
 
-const SideNavMobile = styled("div")(({ theme }) => ({
+const SideNavPhone_Number = styled("div")(({ theme }) => ({
   position: "fixed",
   top: 0,
   left: 0,
@@ -51,7 +51,7 @@ export default function Sidenav({ children }) {
         <VerticalNav items={navigations} />
       </StyledScrollBar>
 
-      <SideNavMobile onClick={() => updateSidebarMode({ mode: "close" })} />
+      <SideNavPhone_Number onClick={() => updateSidebarMode({ mode: "close" })} />
     </Fragment>
   );
 }

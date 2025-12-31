@@ -42,7 +42,7 @@ export default function ForgotPassword() {
           <Grid item xs={12}>
             <div className="img-wrapper">
               <img width="300"
-                style={{ borderRadius: 20 }} src={process.env.PUBLIC_URL+"/assets/images/screening.png"} alt="" />
+                style={{ borderRadius: 20 }} src={process.env.PUBLIC_URL + "/assets/images/broiler-chicken.jpg"} alt="" />
             </div>
 
             <ContentBox>

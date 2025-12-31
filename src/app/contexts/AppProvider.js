@@ -10,7 +10,7 @@ const reducer = (state, action) => {
     case "START_NEW_SCREENING":
       return {
         ...state, new_screening: true,
-        currentPatientId: action.payload
+        currentBroilerId: action.payload
       };
     case "STOP_NEW_SCREENING":
       return {
