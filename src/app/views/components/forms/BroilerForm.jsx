@@ -65,7 +65,7 @@ const BroilerForm = () => {
   const [breedError, setbreedError] = useState(false);
   const [res, setRes] = useState({});
   const { user } = useAuth();
-  const supervisor_id = JSON.parse(localStorage.getItem("id"));
+  // const supervisor_id = JSON.parse(localStorage.getItem("id"));
   const farm_institution = JSON.parse(localStorage.getItem("health_institution"))?.id;
   const { state, dispatch } = useAppContext();
   // console.log("state", state)
@@ -74,7 +74,7 @@ const BroilerForm = () => {
     broiler_image: null,
     image_prediction: null,
     broiler_id: state.new_screening ? state.currentBroilerId : null,
-    supervisor_id: user?.id,
+    // supervisor_id: user?.id,
   });
 
   const initialFormData = {
@@ -88,7 +88,7 @@ const BroilerForm = () => {
     region: "region",
     zone: "zone",
     kebele: "kebele",
-    supervisor_id: supervisor_id || "",
+    // supervisor_id: supervisor_id || "",
     farm_institution: farm_institution || "",
 
   };
@@ -286,15 +286,15 @@ const BroilerForm = () => {
                     value={formData.farm_institution}
                     validators={["required"]}
                     errorMessages={["this field is required"]}
-                  />
-                  <TextField
-                    type="text"
-                    name="supervisor_id"
-                    label="Supervisor ID"
-                    onChange={handleChange}
-                    value={formData.supervisor_id}
-                    validators={["required"]}
-                    errorMessages={["this field is required"]}
+                  // />
+                  // <TextField
+                  //   type="text"
+                  //   name="supervisor_id"
+                  //   label="Supervisor ID"
+                  //   onChange={handleChange}
+                  //   value={formData.supervisor_id}
+                  //   validators={["required"]}
+                  //   errorMessages={["this field is required"]}
                   /> */}
                 </Grid>
               </Grid>

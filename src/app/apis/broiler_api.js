@@ -77,7 +77,7 @@ export const submitPhysicianDecision = async (formData) => {
 
 export const fetchBroilerForSupervisor = async (in_id) => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}supervisor/${in_id}/`, {
+    const response = await axios.get(`${API_BROILER_URL}?farm/${in_id}/`, {
       headers: {
         Authorization: `Bearer ${token}`
       },

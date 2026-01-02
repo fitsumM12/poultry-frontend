@@ -67,13 +67,17 @@ const BroilerRecord = () => {
   useEffect(() => {
     const fetchBroilers = async () => {
       try {
-        const broilerData = await fetchBroilerForSupervisor(supervisor?.user?.farm_institution?.id);
-        console.log("broilerData", broilerData);
-        setBroilers(Array.isArray(broilerData) ? broilerData : [broilerData]);
+        const data = await fetchBroilerForSupervisor(
+          supervisor?.user?.farm_institution?.id
+        );
+
+        console.log("broiler list", data);
+        setBroilers(data || []);   // <-- now always an array
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching broilers:", error);
       }
     };
+
     fetchBroilers();
   }, []);
 
