@@ -68,7 +68,8 @@ const BroilerRecord = () => {
     const fetchBroilers = async () => {
       try {
         const broilerData = await fetchBroilerForSupervisor(supervisor?.user?.farm_institution?.id);
-        setBroilers(broilerData);
+        console.log("broilerData", broilerData);
+        setBroilers(Array.isArray(broilerData) ? broilerData : [broilerData]);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -96,9 +97,9 @@ const BroilerRecord = () => {
   };
 
   const Severity = {
-    0: "NO DR",
-    1: "NPDR",
-    2: "PLDR",
+    0: "Newcastle",
+    1: "Normal",
+    2: "Other abnormal",
   };
 
 

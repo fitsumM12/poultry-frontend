@@ -88,28 +88,28 @@ const BroilerProfile = ({ data }) => {
   const [zoomedImageUrl, setZoomedImageUrl] = useState(null);
   const [supervisorDetails, setsupervisorDetails] = useState({});
 
-  useEffect(() => {
-    const fetchBroilers = async () => {
-      try {
-        const broilerData = await fetchBroilerById(data.id);
-        setBroilers(broilerData);
+  // useEffect(() => {
+  //   const fetchBroilers = async () => {
+  //     try {
+  //       const broilerData = await fetchBroilerById(data.id);
+  //       setBroilers(broilerData);
 
-        const uniquesupervisorIds = [...new Set(broilerData?.map(broiler => broiler?.supervisor_id))];
-        const supervisorPromises = uniquesupervisorIds?.map(supervisorId => getUser(supervisorId));
+  //       const uniquesupervisorIds = [...new Set(broilerData?.map(broiler => broiler?.supervisor_id))];
+  //       const supervisorPromises = uniquesupervisorIds?.map(supervisorId => getUser(supervisorId));
 
-        const supervisors = await Promise.all(supervisorPromises);
-        const supervisorDetailsMap = {};
-        uniquesupervisorIds?.forEach((supervisorId, index) => {
-          supervisorDetailsMap[supervisorId] = supervisors[index];
-        });
-        setsupervisorDetails(supervisorDetailsMap);
-      } catch (error) {
-        console.error("Error fetching broilers:", error);
-      }
-    };
+  //       const supervisors = await Promise.all(supervisorPromises);
+  //       const supervisorDetailsMap = {};
+  //       uniquesupervisorIds?.forEach((supervisorId, index) => {
+  //         supervisorDetailsMap[supervisorId] = supervisors[index];
+  //       });
+  //       setsupervisorDetails(supervisorDetailsMap);
+  //     } catch (error) {
+  //       console.error("Error fetching broilers:", error);
+  //     }
+  //   };
 
-    fetchBroilers();
-  }, [data]);
+  //   fetchBroilers();
+  // }, [data]);
   useEffect(() => {
     // console.log("Updated supervisor details:", supervisorDetails);
   }, [supervisorDetails]);
