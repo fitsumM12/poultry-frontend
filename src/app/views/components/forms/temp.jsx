@@ -39,7 +39,7 @@ function ImageUploadForm() {
     breed: 'unknown',
     Flock_ID: 'unknown',
     email: 'unknown@gmail.com',
-    phone_number: '',
+    Phone_Number: '',
     region: 'unknown',
     zone: 'unknown',
     kebele: 'unknown',
@@ -84,7 +84,7 @@ function ImageUploadForm() {
     data.append('age', formData.age);
     data.append('breed', formData.breed);
     data.append('email', formData.email);
-    data.append('phone_number', formData.phone_number);
+    data.append('Phone_Number', formData.Phone_Number);
     data.append('region', formData.region);
     data.append('zone', formData.zone);
     data.append('kebele', formData.kebele);
@@ -197,8 +197,8 @@ function ImageUploadForm() {
 
                   <TextField
                     type="text"
-                    name="phone_number"
-                    value={formData.phone_number || ""}
+                    name="Phone_Number"
+                    value={formData.Phone_Number || ""}
                     label="Phone Number"
                     onChange={handleChange}
                     validators={["required"]}

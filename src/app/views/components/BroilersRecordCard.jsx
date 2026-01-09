@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Box, styled, Grid } from "@mui/material";
 import Diversity2Icon from '@mui/icons-material/Diversity2';
-
+import { GiChicken } from 'react-icons/gi';
 const CardRoot = styled(Card)({
     height: "100%",
     padding: "20px 24px"
@@ -28,7 +28,13 @@ const BroilerRecordCard = ({ children, title, subtitle }) => {
             display: 'flex',
             flexDirection: 'column',
         }}>
-            <CardTitle subtitle={subtitle}>&nbsp;&nbsp;&nbsp;<Diversity2Icon style={{ color: '#fa931d' }} />   &nbsp;&nbsp;&nbsp;{title}</CardTitle>
+            <CardTitle subtitle={subtitle}>
+                &nbsp;&nbsp;&nbsp;
+                <GiChicken size={28} color="#fa931d" />   {/* Chicken icon */}
+                &nbsp;&nbsp;&nbsp;
+                {title}
+            </CardTitle>
+            {/* <CardTitle subtitle={subtitle}>&nbsp;&nbsp;&nbsp;<Diversity2Icon style={{ color: '#fa931d' }} />   &nbsp;&nbsp;&nbsp;{title}</CardTitle> */}
             {subtitle && <Box mb={2}>{subtitle}</Box>}
             {children}
         </CardRoot>

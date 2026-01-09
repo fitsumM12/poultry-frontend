@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
     }),
   role: Yup.string().required('Role is required'),
   breed: Yup.string().required('Breed is required'),
-  phone_number: Yup.string().matches(/^[0-9]+$/, 'Invalid phone number')
+  Phone_Number: Yup.string().matches(/^[0-9]+$/, 'Invalid phone number')
 });
 
 export default function UserForm({ userId, onSubmit, onCancel }) {
@@ -39,7 +39,7 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
     role: '',
     breed: '',
     hatch_date: null,
-    phone_number: '',
+    Phone_Number: '',
     region: '',
     zone: '',
     kebele: '',
@@ -58,7 +58,7 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
             role: user.role || '',
             breed: user.breed || '',
             hatch_date: user.hatch_date || null,
-            phone_number: user.phone_number || '',
+            Phone_Number: user.Phone_Number || '',
             region: user.region || '',
             zone: user.zone || '',
             kebele: user.kebele || '',
@@ -174,11 +174,11 @@ export default function UserForm({ userId, onSubmit, onCancel }) {
           <TextField
             fullWidth
             label="Phone Number"
-            name="phone_number"
-            value={formik.values.phone_number}
+            name="Phone_Number"
+            value={formik.values.Phone_Number}
             onChange={formik.handleChange}
-            error={formik.touched.phone_number && Boolean(formik.errors.phone_number)}
-            helperText={formik.touched.phone_number && formik.errors.phone_number}
+            error={formik.touched.Phone_Number && Boolean(formik.errors.Phone_Number)}
+            helperText={formik.touched.Phone_Number && formik.errors.Phone_Number}
           />
         </Grid>
         <Grid item xs={12} sm={6}>

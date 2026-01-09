@@ -7,9 +7,10 @@ const token = localStorage.getItem('token');
 
 
 // MAKE THE PREDICTION API
-export const predictImage = async (image) => {
+export const predictImage = async (image,broiler_id) => {
   const formData = new FormData();
   formData.append('image', image); 
+  formData.append('broiler_id', broiler_id);
   try {
     const response = await axios.post(`${API_BROILER_URL}predict_image/`, formData, {
       headers: {

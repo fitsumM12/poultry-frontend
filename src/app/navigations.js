@@ -3,13 +3,13 @@ export const navigations = [
 
   {
     name: "New Prediction",
-    icon: "person",
+    icon: "pets",
     path: "/newcase/"
   }, 
  
   {
     name: "Broiler Records",
-    icon: "group",
+    icon: "agriculture",
     path: "/records/"
   },
   
@@ -18,6 +18,5 @@ export const navigations = [
   {
     name: "About us",
     icon: "launch",
-    path: "https://www.aii.et/"
-  }
+    path: "https://aii.et/Home" }
 ];

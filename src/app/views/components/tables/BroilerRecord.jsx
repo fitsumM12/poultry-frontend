@@ -23,7 +23,7 @@ import {
 import { Grid } from "@material-ui/core";
 import { Stack, styled } from "@mui/system";
 
-import BroilersRecordCard from "../BroilersRecordCard"; // ✅ correct
+import BroilersRecordCard from "../BroilersRecordCard";
 import { fetchBroilerForSupervisor, fetchBroiler } from "app/apis/broiler_api";
 import useAppContext from "app/hooks/useAppContext";
 import useAuth from "app/hooks/useAuth";
@@ -38,6 +38,7 @@ const Container = styled("div")(({ theme }) => ({
     [theme.breakpoints.down("sm")]: { marginBottom: "16px" }
   }
 }));
+
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
   "& thead": {
@@ -49,35 +50,35 @@ const StyledTable = styled(Table)(() => ({
 }));
 
 const BroilerRecord = () => {
-
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpansion = () => {
-    setExpanded((prevExpanded) => !prevExpanded);
-  };
+  const [expanded, setExpanded] = useState(false);
   const [page, setPage] = useState(0);
-  const { state } = useAppContext();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [broilers, setBroilers] = useState([]);
   const [broiler, setBroiler] = useState(null);
   const [viewBroiler, setViewBroiler] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { state } = useAppContext();
   const supervisor = useAuth();
 
-  console.log("supervisor", supervisor);
+  const handleExpansion = () => {
+    setExpanded(prev => !prev);
+  };
+
+  const handleBack = () => {
+    setViewBroiler(false);
+  };
+
   useEffect(() => {
     const fetchBroilers = async () => {
       try {
         const data = await fetchBroilerForSupervisor(
           supervisor?.user?.farm_institution?.id
         );
-
-        console.log("broiler list", data);
-        setBroilers(data || []);   // <-- now always an array
+        setBroilers(data || []);
       } catch (error) {
         console.error("Error fetching broilers:", error);
       }
     };
-
     fetchBroilers();
   }, []);
 
@@ -91,48 +92,16 @@ const BroilerRecord = () => {
     }
   };
 
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
-
+  const handleChangePage = (_, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const Severity = {
-    0: "Newcastle",
-    1: "Normal",
-    2: "Other abnormal",
-  };
-
-
-  const largestIndex = (predictions) => {
-    if (!predictions || predictions.length === 0 || predictions[0].length === 0) {
-      return -1;
-    }
-
-    let largestIndex = 0;
-
-    for (let i = 1; i < predictions[0].length; i++) {
-      if (predictions[0][i] > predictions[0][largestIndex]) {
-        largestIndex = i;
-      }
-    }
-
-    return largestIndex;
-  };
-
-
-  const handleBack = () => {
-    setViewBroiler(false);
-  };
-
-  const [searchQuery, setSearchQuery] = useState('');
   const filteredBroiler = broilers?.filter((broiler) =>
     String(broiler?.farmer_name + broiler?.farm_name)?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  // console.log("broiler filtered", filteredBroiler);  
+
   return (
     <Container>
       <Stack spacing={3}>
@@ -143,7 +112,6 @@ const BroilerRecord = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell align="center">
-
                       <ValidatorForm>
                         <TextValidator
                           label="Broiler Name"
@@ -155,7 +123,6 @@ const BroilerRecord = () => {
                         />
                       </ValidatorForm>
                     </TableCell>
-                    <TableCell align="center">Phone_Number</TableCell>
                     <TableCell align="center">Breed</TableCell>
                     <TableCell align="center">Registered</TableCell>
                     <TableCell align="right">Action</TableCell>
@@ -169,12 +136,8 @@ const BroilerRecord = () => {
                         <TableCell align="left">
                           {broiler?.farmer_name + " " + broiler?.farm_name}
                         </TableCell>
-                        <TableCell align="center">{broiler?.phone_number}</TableCell>
-                        <TableCell align="center">
-                          {broiler?.breed}
-                        </TableCell><TableCell align="center">
-                          {broiler?.record_date}
-                        </TableCell>
+                        <TableCell align="center">{broiler?.breed}</TableCell>
+                        <TableCell align="center">{broiler?.record_date}</TableCell>
                         <TableCell align="right">
                           <Tooltip title="View">
                             <IconButton
@@ -203,7 +166,6 @@ const BroilerRecord = () => {
                 backIconButtonProps={{ "aria-label": "Previous Page" }}
               />
             </Box>
-
           ) : (
             <>
               <Accordion
@@ -214,20 +176,12 @@ const BroilerRecord = () => {
                 sx={[
                   expanded
                     ? {
-                      '& .MuiAccordion-region': {
-                        height: 'auto',
-                      },
-                      '& .MuiAccordionDetails-root': {
-                        display: 'block',
-                      },
+                      '& .MuiAccordion-region': { height: 'auto' },
+                      '& .MuiAccordionDetails-root': { display: 'block' },
                     }
                     : {
-                      '& .MuiAccordion-region': {
-                        height: 0,
-                      },
-                      '& .MuiAccordionDetails-root': {
-                        display: 'none',
-                      },
+                      '& .MuiAccordion-region': { height: 0 },
+                      '& .MuiAccordionDetails-root': { display: 'none' },
                     },
                 ]}
               >
@@ -248,14 +202,12 @@ const BroilerRecord = () => {
                     <Typography variant="h8" sx={{ fontStyle: "bold" }}>
                       {`${broiler?.farmer_name} ${broiler?.farm_name}`.toUpperCase()}
                     </Typography>
-
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Box sx={{ p: 2, border: '1px dashed blue', borderRadius: '5px', marginBottom: 2, boxShadow: 5 }}>
-                    <Grid container spacing={2} justifyContent="flex" >
+                    <Grid container spacing={2} justifyContent="flex">
                       <Grid item xs={12} sm={6} md={6} lg={6}>
-
                         <Typography variant="subtitle1" align="left" gutterBottom>
                           {`${broiler?.breed}, ${broiler?.hatch_date}`}
                         </Typography>
@@ -263,13 +215,10 @@ const BroilerRecord = () => {
                           {`Email: ${broiler?.email}`}
                         </Typography>
                         <Typography variant="subtitle1" align="left" gutterBottom>
-                          {`Phone_number: ${broiler?.Phone_Number}`}
-                        </Typography>
-                        <Typography variant="subtitle1" align="left" gutterBottom>
                           {`Flock ID: ${broiler?.Flock_ID}`}
                         </Typography>
-                      </Grid><Grid item xs={12} sm={6} md={6} lg={6}>
-
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={6} lg={6}>
                         <Typography variant="subtitle1" align="left" gutterBottom>
                           {`Region: ${broiler?.region}`}
                         </Typography>
@@ -289,7 +238,6 @@ const BroilerRecord = () => {
               </Accordion>
               {broiler && <BroilerProfile data={broiler} />}
             </>
-
           )}
         </BroilersRecordCard>
       </Stack>
@@ -298,4 +246,3 @@ const BroilerRecord = () => {
 };
 
 export default BroilerRecord;
-

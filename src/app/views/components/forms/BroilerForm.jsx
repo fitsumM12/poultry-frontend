@@ -84,7 +84,7 @@ const BroilerForm = () => {
     breed: "Red Ranger",
     Flock_ID: "Flock ID",
     email: "custom@gmail.com",
-    phone_number: "0974000000",
+    Phone_Number: "0974000000",
     region: "region",
     zone: "zone",
     kebele: "kebele",
@@ -119,9 +119,17 @@ const BroilerForm = () => {
       alert("Please provide an image image for diagnosis.");
       return;
     }
+    // 2. CHECK THE ID: If it is null or undefined, stop here!
+    const b_id = predictions.broiler_id;
+    if (!b_id || b_id === "undefined") {
+      alert("Error: Broiler ID is missing. Please save the Broiler Details first.");
+      console.error("Current predictions state:", predictions);
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const prediction = await predictImage(imagePreview);
+      const prediction = await predictImage(imagePreview, b_id);
       if (prediction) {
         const updatedPredictions = {
           ...predictions,
@@ -159,6 +167,21 @@ const BroilerForm = () => {
   // useEffect(()=>{
   //   consol
   // },[])
+  // const handleShowImageSection = async () => {
+  //   console.log("Submit clicked");
+  //   if (!formData.breed) {
+  //     setbreedError(true);
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await submitFormData(formData);
+  //     setPredictions((prev) => ({ ...prev, broiler_id: response?.id }))
+  //     setShowImageSection(true);
+  //   } catch (error) {
+  //     console.error("Error saving broiler data:", error);
+  //   }
+  // };
   const handleShowImageSection = async () => {
     console.log("Submit clicked");
     if (!formData.breed) {
@@ -168,10 +191,21 @@ const BroilerForm = () => {
 
     try {
       const response = await submitFormData(formData);
-      setPredictions((prev) => ({ ...prev, broiler_id: response?.id }))
-      setShowImageSection(true);
+
+      // FIX: Explicitly check if the ID exists in the response
+      if (response && response.id) {
+        console.log("Received Broiler ID:", response.id); // Debugging line
+        setPredictions((prev) => ({ ...prev, broiler_id: response.id }));
+        setShowImageSection(true);
+      } else {
+        // If the backend didn't return an ID, don't let the user continue
+        alert("The server did not return a Broiler ID. Please check your network or backend.");
+        console.error("Server response was:", response);
+      }
+
     } catch (error) {
       console.error("Error saving broiler data:", error);
+      alert("Failed to save broiler details. Please try again.");
     }
   };
   return (
@@ -202,9 +236,9 @@ const BroilerForm = () => {
                   />
                   <TextField
                     type="text"
-                    name="phone_number"
+                    name="Phone_Number"
                     label="Phone Number"
-                    value={formData.phone_number}
+                    value={formData.Phone_Number}
                     onChange={handleChange}
                     validators={["required"]}
                     errorMessages={["this field is required"]}

@@ -96,7 +96,7 @@ const Layout1Topbar = () => {
     let { layout1Settings } = settings;
     let mode;
     if (isMdScreen) {
-      mode = layout1Settings.leftSidebar.mode === "close" ? "phone_number" : "close";
+      mode = layout1Settings.leftSidebar.mode === "close" ? "Phone_Number" : "close";
     } else {
       mode = layout1Settings.leftSidebar.mode === "full" ? "close" : "full";
     }

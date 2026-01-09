@@ -1,11 +1,18 @@
 import { Box, Card, Grid, styled } from "@mui/material";
-import { Group, LocalHospital } from "@mui/icons-material";
+// import { Group, LocalHospital } from "@mui/icons-material";
 import { Small } from "app/components/Typography";
 import { fetchBroilerForSupervisor, getBroilersCount } from "app/apis/broiler_api";
 import useAuth from "app/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { get_institution_count } from "app/apis/users_api";
-
+// import { GiChicken, GiSickChicken, GiChickenLeg } from "react-icons/gi";
+import { LocalHospital } from "@mui/icons-material"; // keep Farms icon if you like
+// import { GiBarn } from 'react-icons/gi';
+import { GiChickens } from 'react-icons/gi';
+import { MdAgriculture } from 'react-icons/md';
+import { GiChicken, GiBarn } from 'react-icons/gi';
+import { MdGroups, MdStorefront } from 'react-icons/md';
+import { FaTableList } from "react-icons/fa6";
 // STYLED COMPONENTS
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -44,16 +51,18 @@ export default function StatCards() {
   const [institution, setInstitution] = useState(0);
   const [normalCount, setNormalCount] = useState(0);
   const [abnormalCount, setAbnormalCount] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
+  const [
+    totalCount, setTotalCount] = useState(0);
   const { user } = useAuth();
 
   useEffect(() => {
     const fetchCount = async () => {
       try {
         const response = await getBroilersCount();
-        setTotalCount(response.total_broilers_count);
-        setNormalCount(response.normal_broilers_count);
-        setAbnormalCount(response.abnormal_broilers_count);
+        console.log("Full API Response:", response); // <--- Add this line!
+        setTotalCount(response.total_broilers_count || 0);
+        setNormalCount(response.normal_broilers_count || 0);
+        setAbnormalCount(response.abnormal_broilers_count || 0);
       } catch (error) {
         // console.log(error);
       }
@@ -74,12 +83,25 @@ export default function StatCards() {
     fetchInstitutionCount();
   }, []);
 
+  // const cardList = [
+  //   { name: "Farms", amount: institution, Icon: LocalHospital, color: "#1E88E5" },
+  //   { name: "Total", amount: totalCount, Icon: Group, color: "#43A047" },
+  //   { name: "Normal", amount: normalCount, Icon: Group, color: "#FB8C00" },
+  //   { name: "Abnormal", amount: abnormalCount, Icon: Group, color: "#E53935" },
+  // ];
   const cardList = [
-    { name: "Farms", amount: institution, Icon: LocalHospital, color: "#1E88E5" },
-    { name: "Total", amount: totalCount, Icon: Group, color: "#43A047" },
-    { name: "Normal", amount: normalCount, Icon: Group, color: "#FB8C00" },
-    { name: "Abnormal", amount: abnormalCount, Icon: Group, color: "#E53935" },
+    { name: "Farms", amount: institution, Icon: MdStorefront, color: "#1E88E5" },
+
+    // 🟢 Total Broilers
+    { name: "Total", amount: totalCount, Icon: FaTableList, color: "#43A047" },
+
+    // 🟡 Normal (Healthy)
+    { name: "Normal", amount: normalCount, Icon: GiChicken, color: "#FB8C00" },
+
+    // 🔴 Abnormal (Diseased)
+    { name: "Abnormal", amount: abnormalCount, Icon: GiChicken, color: "#E53935" },
   ];
+
 
   return (
     <Grid container spacing={4} sx={{ mb: "24px" }}>

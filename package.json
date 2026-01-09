@@ -1,7 +1,7 @@
 {
   "name": "broiler-disease-detection",
   "version": "4.0.0",
-  "homepage":"/Broiler-app",
+  "homepage": "/Broiler-app",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -60,6 +60,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-icons": "^5.5.0",
     "react-material-ui-form-validator": "^3.0.1",
     "react-medium-image-zoom": "^5.2.10",
     "react-perfect-scrollbar": "^1.5.8",

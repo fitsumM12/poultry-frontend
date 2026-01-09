@@ -33,9 +33,9 @@ export default function AccordionTransition({ data }) {
     const classes = useStyles();
 
     const Severity = {
-        0: "No diabetic retinopathy",
-        1: "Non proliferative diabetic retinopathy",
-        2: "Proliferative diabetic retinopathy",
+        0: "Newcastle Disease",
+        1: "Normal",
+        2: "Other Abnormality",
     };
 
     const largestIndex = (predictions) => {
@@ -99,7 +99,7 @@ export default function AccordionTransition({ data }) {
                                     {`Email: ${data.email}`}
                                 </Typography>
                                 <Typography variant="subtitle1" align="left" gutterBottom>
-                                    {`Phone Number: ${data.phone_number}`}
+                                    {`Phone Number: ${data.Phone_Number}`}
                                 </Typography>
                                 <Typography variant="subtitle1" align="left" gutterBottom>
                                     {`Flock ID: ${data.Flock_ID}`}
