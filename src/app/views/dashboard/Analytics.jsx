@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Grid, styled } from "@mui/material";
 import StatCards from "./shared/StatCards";
-import { SupervisorDoughnut } from "./shared/DoughnutSupervisor";
+import SupervisorDoughnut from "./shared/DoughnutSupervisor";
 import MonthlyTrend from "./shared/MonthlyTrend";
 
 // STYLED COMPONENTS

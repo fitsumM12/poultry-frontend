@@ -4,7 +4,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useCallback } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from "./axios";
 import { DatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -92,7 +93,7 @@ function ImageUploadForm() {
     data.append('farm_institution', formData.farm_institution || '');
     data.append('image', formData.image);
 
-    axios.post(`${process.env.SERVER_IP_ADDRESS}/api/predicts/`, data)
+    api.post(`${process.env.SERVER_IP_ADDRESS}/api/predicts/`, data)
       .then(response => {
         if (response.status === 200) {
           return response.data;

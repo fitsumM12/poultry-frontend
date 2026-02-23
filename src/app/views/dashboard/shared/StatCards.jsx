@@ -46,29 +46,39 @@ const Heading = styled("h2")(({ theme }) => ({
   color: '#181b62',
 }));
 
-// MAIN COMPONENT
+
 export default function StatCards() {
   const [institution, setInstitution] = useState(0);
   const [normalCount, setNormalCount] = useState(0);
   const [abnormalCount, setAbnormalCount] = useState(0);
-  const [
-    totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const { user } = useAuth();
 
   useEffect(() => {
     const fetchCount = async () => {
       try {
         const response = await getBroilersCount();
-        console.log("Full API Response:", response); // <--- Add this line!
-        setTotalCount(response.total_broilers_count || 0);
-        setNormalCount(response.normal_broilers_count || 0);
-        setAbnormalCount(response.abnormal_broilers_count || 0);
+
+        // 1. Extract the specific counts from the API response
+        const normal = response.normal_broilers_count || 0;
+        const abnormal = response.abnormal_broilers_count || 0;
+
+        // 2. Set individual states
+        setNormalCount(normal);
+        setAbnormalCount(abnormal);
+
+        // 3. FIX: Manually sum them so Total always matches Normal + Abnormal
+        // This prevents the 'Total: 7' error when sum is actually 6
+        setTotalCount(normal + abnormal);
+
       } catch (error) {
-        // console.log(error);
+        console.error("Error fetching stats:", error);
       }
     };
     fetchCount();
   }, []);
+
+  // ... rest of your component (cardList, return statement) remains the same
 
   useEffect(() => {
     const fetchInstitutionCount = async () => {

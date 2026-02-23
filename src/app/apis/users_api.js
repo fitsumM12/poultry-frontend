@@ -1,4 +1,5 @@
-import axios from "axios";
+// import api from "utils/axios";
+import api from "./axios";
 
 const API_USER_URL = `${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/users`;
 const API_INST_URL = `${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/institute`;
@@ -11,7 +12,7 @@ export const uploadFiles = async (imageFile, passportFile) => {
     formData.append('files', imageFile);
     formData.append('files', passportFile);
 
-    const response = await axios.post(`${API_USER_URL}/upload_files/`, formData, {
+    const response = await api.post(`${API_USER_URL}/upload_files/`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
@@ -32,7 +33,7 @@ export const uploadFiles = async (imageFile, passportFile) => {
 // ADD USERS
 export const addUser = async (formData) => {
   try {
-    const response = await axios.post(`${API_USER_URL}/add/`, formData, {
+    const response = await api.post(`${API_USER_URL}/add/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -52,7 +53,7 @@ export const addUser = async (formData) => {
 // GET USERS
 export const getUsers = async () => {
   try {
-    const response = await axios.get(`${API_USER_URL}/`, {
+    const response = await api.get(`${API_USER_URL}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -66,8 +67,11 @@ export const getUsers = async () => {
 
 // GET USER
 export const getUser = async (userId) => {
+    if (!userId) {
+    throw new Error("User ID is missing!");
+  }
   try {
-    const response = await axios.get(`${API_USER_URL}/${userId}/`,
+    const response = await api.get(`${API_USER_URL}/${userId}/`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -84,7 +88,7 @@ export const getUser = async (userId) => {
 // GET HOW MANY INSTITUTE IS REGISTERED
 export const get_institution_count = async () => {
   try {
-    const response = await axios.get(`${API_INST_URL}/get_healthy_institution_count`,
+    const response = await api.get(`${API_INST_URL}/get_healthy_institution_count`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,7 +104,7 @@ export const get_institution_count = async () => {
 // BLOCK USERS
 export const blockUser = async (userId) => {
   try {
-    const response = await axios.patch(`${API_USER_URL}/block/${userId}/`, {
+    const response = await api.patch(`${API_USER_URL}/block/${userId}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -115,7 +119,7 @@ export const blockUser = async (userId) => {
 // APPROVE USER
 export const approveUser = async (userId) => {
   try {
-    const response = await axios.patch(`${API_USER_URL}/approve/${userId}/`, {
+    const response = await api.patch(`${API_USER_URL}/approve/${userId}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -130,7 +134,7 @@ export const approveUser = async (userId) => {
 // DELETE USER
 export const deleteUser = async (userId) => {
   try {
-    const response = await axios.delete(`${API_USER_URL}/user_retrieve/${userId}/`, {
+    const response = await api.delete(`${API_USER_URL}/delete/${userId}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

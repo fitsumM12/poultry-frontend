@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import api from "./axios";
 // Base URL for your API
 const API_BROILER_URL = `${process.env.REACT_APP_SERVER_IP_ADDRESS}/api/broilers/`;
 const token = localStorage.getItem('token');
@@ -12,7 +11,7 @@ export const predictImage = async (image,broiler_id) => {
   formData.append('image', image); 
   formData.append('broiler_id', broiler_id);
   try {
-    const response = await axios.post(`${API_BROILER_URL}predict_image/`, formData, {
+    const response = await api.post(`${API_BROILER_URL}predict_image/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -29,7 +28,7 @@ export const predictImage = async (image,broiler_id) => {
 // TO ADD THE DATAFORM PLUGIN
 export const submitFormData = async (formData) => {
   try {
-    const response = await axios.post(`${API_BROILER_URL}add/`, formData, {
+    const response = await api.post(`${API_BROILER_URL}add/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -47,7 +46,7 @@ export const submitFormData = async (formData) => {
 // ADDING AN IMAGE AND PREDICTIONS
 export const submitImageAndPrediction = async (formData) => {
   try {
-    const response = await axios.post(`${API_BROILER_URL}add_image_predictions/`, formData, {
+    const response = await api.post(`${API_BROILER_URL}add_image_predictions/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -63,7 +62,7 @@ export const submitImageAndPrediction = async (formData) => {
 
 export const submitPhysicianDecision = async (formData) => {
   try {
-    const response = await axios.post(`${API_BROILER_URL}addphysiciandecision/`, formData, {
+    const response = await api.post(`${API_BROILER_URL}addphysiciandecision/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -78,7 +77,7 @@ export const submitPhysicianDecision = async (formData) => {
 
 export const fetchBroilerForSupervisor = async (in_id) => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}?farm/${in_id}/`, {
+    const response = await api.get(`${API_BROILER_URL}?farm/${in_id}/`, {
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -95,7 +94,7 @@ export const fetchBroilerForSupervisor = async (in_id) => {
 // FETCH INDIVIDUAL BROILER API
 export const fetchBroiler = async (b_id) => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}${b_id}/`, {
+    const response = await api.get(`${API_BROILER_URL}${b_id}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -111,7 +110,7 @@ export const fetchBroiler = async (b_id) => {
 // UPDATE BROILER FUNCTION IN API CALLS
 export const updateBroilerInAPI = async (id, formData) => {
   try {
-    const response = await axios.put(`${API_BROILER_URL}update/${id}/`, formData, {
+    const response = await api.put(`${API_BROILER_URL}update/${id}/`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -124,22 +123,26 @@ export const updateBroilerInAPI = async (id, formData) => {
   }
 };
 export const fetchBroilerById = async (id) => {
+  // Ensure this points exactly to your Django server
+  const BASE_URL = process.env.REACT_APP_SERVER_IP_ADDRESS || 'http://localhost:8000';
+  const token = localStorage.getItem('token'); 
+
   try {
-    const response = await axios.get(`${API_BROILER_URL}getprediction/${id}/`, {
+    // We use the full URL to prevent the 'Broiler-app' prefix error
+    const response = await api.get(`${BASE_URL}/api/getprediction/${id}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching broiler by ID:', error);
+    console.error("API Error:", error.response ? error.response.data : error.message);
     throw error;
   }
 };
-
 export const getBroilersCount = async () => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}count_broilers_json/`, {
+    const response = await api.get(`${API_BROILER_URL}count_broilers_json/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -153,7 +156,7 @@ export const getBroilersCount = async () => {
 
 export const breedCount = async () => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}breed_count/`, {
+    const response = await api.get(`${API_BROILER_URL}breed_count/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -167,7 +170,7 @@ export const breedCount = async () => {
 
 export const newandreturning = async () => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}new_vs_returning_broilers/`, {
+    const response = await api.get(`${API_BROILER_URL}new_vs_returning_broilers/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -182,7 +185,7 @@ export const newandreturning = async () => {
 
 export const monthlyBroilerCount = async (year) => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}monthly_broiler_count/${year}/`, {
+    const response = await api.get(`${API_BROILER_URL}monthly_broiler_count/${year}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -196,7 +199,7 @@ export const monthlyBroilerCount = async (year) => {
 
 export const monthlyPredictionCount = async (year) => {
   try {
-    const response = await axios.get(`${API_BROILER_URL}predictions_by_month/${year}/`, {
+    const response = await api.get(`${API_BROILER_URL}predictions_by_month/${year}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

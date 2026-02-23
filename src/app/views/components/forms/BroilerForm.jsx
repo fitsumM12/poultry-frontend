@@ -245,6 +245,8 @@ import {
   Tooltip
 } from "@mui/material";
 import FlipIcon from '@mui/icons-material/Flip';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { GiChicken } from "react-icons/gi";
 import { AddCircleOutline } from "@mui/icons-material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { Span } from "app/components/Typography";
@@ -333,19 +335,7 @@ const BroilerForm = () => {
     },
   });
 
-  // const handleShowImageSection = async () => {
-  //   try {
-  //     const response = await submitFormData(formData);
-  //     if (response && response.id) {
-  //       setPredictions((prev) => ({ ...prev, broiler_id: response.id }));
-  //       setShowImageSection(true);
-  //     } else {
-  //       alert("The server did not return a Broiler ID.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving broiler data:", error);
-  //   }
-  // };
+
   const handleShowImageSection = async () => {
     // FORCE the supervisor_id right now
     const finalData = {
@@ -408,7 +398,7 @@ const BroilerForm = () => {
         <ValidatorForm onSubmit={handleShowImageSection}>
           <Stack spacing={3}>
             {/* CARD 1: FARMER INFO */}
-            <SimpleCard title="Farmer & Farm Information">
+            <SimpleCard title="Farmer & Farm Information" icon={<PersonAddIcon sx={{ color: "#fa931d" }} />}>
               <Grid container spacing={3}>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
                   <TextField label="Farmer Name" name="farmer_name" onChange={handleChange} value={formData.farmer_name} validators={["required"]} errorMessages={["required"]} />
@@ -425,7 +415,7 @@ const BroilerForm = () => {
             </SimpleCard>
 
             {/* CARD 2: BROILER INFO */}
-            <SimpleCard title="Broiler Unit Details">
+            <SimpleCard title="Broiler Unit Details" icon={<GiChicken size={26} color="#fa931d" />}>
               <Grid container spacing={3}>
                 <Grid item lg={6} md={6} sm={12} xs={12}>
                   <TextField label="Breed" name="breed" onChange={handleChange} value={formData.breed} validators={["required"]} />

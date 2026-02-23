@@ -1,4 +1,6 @@
 import { Card, Box, styled } from "@mui/material";
+import { GiChicken } from "react-icons/gi";
+
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 // STYLED COMPONENTS
 const CardRoot = styled(Card)({
@@ -16,7 +18,7 @@ const CardTitle = styled("div")(({ subtitle }) => ({
   display: 'flex',
   alignItems: 'center',
   boxShadow: "0 0 2px rgba(0, 0, 0, 0.2)",
-  color:'#181b62'
+  color: '#181b62'
 }));
 
 export default function SimpleCard({ children, title, subtitle }) {
@@ -30,7 +32,7 @@ export default function SimpleCard({ children, title, subtitle }) {
     }}
 
     >
-      <CardTitle subtitle={subtitle}>&nbsp;&nbsp;&nbsp;<PersonAddIcon style={{ color: '#fa931d' }} />   &nbsp;&nbsp;&nbsp;{title}</CardTitle>
+      <CardTitle subtitle={subtitle}>&nbsp;&nbsp;&nbsp;<GiChicken style={{ color: '#fa931d' }} />   &nbsp;&nbsp;&nbsp;{title}</CardTitle>
       {subtitle && <Box mb={2}>{subtitle}</Box>}
       {children}
     </CardRoot>
