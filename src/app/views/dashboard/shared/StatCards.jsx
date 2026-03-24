@@ -4,8 +4,9 @@ import { Small } from "app/components/Typography";
 import { fetchBroilerForSupervisor, getBroilersCount } from "app/apis/broiler_api";
 import useAuth from "app/hooks/useAuth";
 import { useEffect, useState } from "react";
-import { get_institution_count } from "app/apis/users_api";
+// import { get_institution_count } from "app/apis/users_api";
 // import { GiChicken, GiSickChicken, GiChickenLeg } from "react-icons/gi";
+import { getFarmCount } from "app/apis/farm_api";
 import { LocalHospital } from "@mui/icons-material"; // keep Farms icon if you like
 // import { GiBarn } from 'react-icons/gi';
 import { GiChickens } from 'react-icons/gi';
@@ -48,7 +49,8 @@ const Heading = styled("h2")(({ theme }) => ({
 
 
 export default function StatCards() {
-  const [institution, setInstitution] = useState(0);
+  // const [institution, setInstitution] = useState(0);
+  const [farmCount, setFarmCount] = useState(0);
   const [normalCount, setNormalCount] = useState(0);
   const [abnormalCount, setAbnormalCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -80,19 +82,30 @@ export default function StatCards() {
 
   // ... rest of your component (cardList, return statement) remains the same
 
+  // useEffect(() => {
+  //   const fetchInstitutionCount = async () => {
+  //     try {
+  //       const response = await get_institution_count();
+  //       setInstitution(response.institution_count);
+  //     } catch (error) {
+  //       console.error("Error fetching institution count:", error);
+  //     }
+  //   };
+
+  //   fetchInstitutionCount();
+  // }, []);
   useEffect(() => {
-    const fetchInstitutionCount = async () => {
+    const fetchFarmCount = async () => {
       try {
-        const response = await get_institution_count();
-        setInstitution(response.institution_count);
+        const response = await getFarmCount();
+        setFarmCount(response.farm_count);
       } catch (error) {
-        console.error("Error fetching institution count:", error);
+        console.error("Error fetching farm count:", error);
       }
     };
 
-    fetchInstitutionCount();
+    fetchFarmCount();
   }, []);
-
   // const cardList = [
   //   { name: "Farms", amount: institution, Icon: LocalHospital, color: "#1E88E5" },
   //   { name: "Total", amount: totalCount, Icon: Group, color: "#43A047" },
@@ -100,7 +113,7 @@ export default function StatCards() {
   //   { name: "Abnormal", amount: abnormalCount, Icon: Group, color: "#E53935" },
   // ];
   const cardList = [
-    { name: "Farms", amount: institution, Icon: MdStorefront, color: "#1E88E5" },
+    { name: "Farms", amount: farmCount, Icon: MdStorefront, color: "#1E88E5" },
 
     // 🟢 Total Broilers
     { name: "Total", amount: totalCount, Icon: FaTableList, color: "#43A047" },

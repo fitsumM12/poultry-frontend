@@ -361,6 +361,10 @@ const BroilerForm = () => {
   };
 
   const handleDiagnose = async () => {
+    console.log("Image preview object:", imagePreview);
+    console.log("Image type:", typeof imagePreview);
+    console.log("Broiler ID:", predictions.broiler_id);
+
     if (!imagePreview) {
       alert("Please provide an image for diagnosis.");
       return;
@@ -374,6 +378,7 @@ const BroilerForm = () => {
 
     setIsLoading(true);
     try {
+      console.log("Sending image to API:", imagePreview);
       const prediction = await predictImage(imagePreview, b_id);
       if (prediction && isPredictionValid(prediction?.predictions[0])) {
         const finalPredictions = {

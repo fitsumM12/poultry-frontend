@@ -44,6 +44,7 @@ const SimpleForm = () => {
 
   const {
     farmer_name,
+    hatch_date,
     farm_Name,
     Phone_Number,
     breed,
@@ -63,7 +64,7 @@ const SimpleForm = () => {
               name="Farmer_Name"
               label="Farmer Name"
               onChange={handleChange}
-              value={Farmer_Name || ""}
+              value={farmer_name || ""}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
@@ -137,7 +138,7 @@ const SimpleForm = () => {
 
             <TextField
               type="text"
-              name="Phone_Number "
+              name="Phone_Number"
               value={Phone_Number || ""}
               label="Phone Number"
               onChange={handleChange}

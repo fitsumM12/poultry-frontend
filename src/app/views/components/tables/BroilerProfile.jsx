@@ -379,7 +379,7 @@ const BroilerProfile = ({ data }) => {
                         <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
                           {item?.broiler_image ? (
                             <img
-                              /* CORRECTED: We use the full path from item.broiler_image */
+                              /* CORRECTED : We use the full path from item.broiler_image */
                               src={`${mediaBaseUrl}${item.broiler_image}`}
                               alt="broiler"
                               style={{
